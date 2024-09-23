@@ -72,9 +72,13 @@ console.log("nb of shopping communities : ", community_names.size);
 // 2. Create a variable and assign it the list of sets by price from lowest to highest
 // 3. Log the variable
 
-function SortByPrice() {
-
+function SortByPrice(a, b) {
+  return a.price - b.price;
 }
+
+let deals_sorted = deals.sort(SortByPrice);
+
+console.table(deals_sorted);
 
 // 🎯 TODO 5: Sort by date
 // 1. Create a function to sort the deals by date
