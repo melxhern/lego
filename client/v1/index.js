@@ -12,11 +12,17 @@ const MY_FAVORITE_DEALERS = [
   {
     'name': 'Avenue de la brique',
     'url': 'https://www.avenuedelabrique.com/promotions-et-bons-plans-lego'
+  },
+  {
+    'name': 'La reine Watevra Wa Nabi',
+    'url': 'https://www.avenuedelabrique.com/lego-movie/70824-la-reine-watevra-wa-nabi/p5202'
   }
 ];
 
 console.table(MY_FAVORITE_DEALERS);
 console.log(MY_FAVORITE_DEALERS[0]);
+
+
 
 /**
  * 🌱
@@ -43,10 +49,22 @@ console.log(MY_FAVORITE_DEALERS[0]);
 // 1. Create a variable and assign it the number of deals
 // 2. Log the variable
 
+let nb_deals = deals.length;
+console.log("nb de deals", nb_deals);
+
 // 🎯 TODO 3: Website name
 // 1. Create a variable and assign it the list of shopping community name only
 // 2. Log the variable
 // 3. Log how many shopping communities we have
+
+let community_names = [];
+
+deals.forEach(deal => {
+  community_names.push(deal.community);
+});
+
+console.log(community_names);
+
 
 // 🎯 TODO 4: Sort by price
 // 1. Create a function to sort the deals by price
