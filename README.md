@@ -47,14 +47,13 @@ With [javascript-empire](https://github.com/92bondstreet/javascript-empire#%EF%B
 
 | Step | Workshops | Planned Date
 | --- | --- | ---
-| 1 | [Manipulate data with JavaScript in the browser](./workshops/1-manipulate-javascript.md) | January 2023
-| 2 | [Interact data with JavaScript, HTML and CSS in the browser again](./workshops/2-interact-js-css.md) | January 2023
-| 3 | [Scrape data with Node.js](./workshops/3-scrape-node.md) | February 2023
-| 4 | [Save data in a Database with MongoDB](./workshops/4-store-mongodb.md) | February 2023
-| 5 | [Build an api with Express to request data](./workshops/5-api-express.md) | February 2023
-| 6 | Test your code with Jest | March 2023
-| 7 | [Deploy in production with Vercel](./workshops/7-deploy.md) | March 2023
-| 8 | Render data with React | March 2023
+| 1 | [Manipulate data with JavaScript in the browser](./workshops/1-manipulate-javascript.md) | Sept 2024
+| 2 | Interact data with JavaScript, HTML and CSS in the browser again| Sept 2024
+| 3 | Scrape data with Node.js| Oct 2024
+| 4 | Save data in a Database with MongoDB | Oct 2024
+| 5 | Build an api with Express to request data | Dec 2024
+| 6 | Test your code with Jest | Dec 2024
+| 7 | Deploy in production with Vercel | Dec 2024
 
 
 ## 🌱 Source and Inspiration
