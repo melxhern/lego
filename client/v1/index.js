@@ -484,6 +484,16 @@ console.log("There are very old items : ", isOldItem(VINTED));
 // 1. Find the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
 // 2. Log the item
 
+console.log("%c ------------------- TODO 13 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
+function findItemById(data, id){
+  return data.find(item => item.uuid === id);
+}
+
+const id = 'f2c5377c-84f9-571d-8712-98902dcbb913';
+console.log("item with the id", id,":");
+console.log(findItemById(VINTED, id));
+
 
 // 🎯 TODO 14: Delete a specific item
 // 1. Delete the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
