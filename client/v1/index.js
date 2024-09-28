@@ -19,8 +19,13 @@ const MY_FAVORITE_DEALERS = [
   }
 ];
 
+
+console.log("%c ------------------- TODO 1 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
+console.log(" MY_FAVORITE_DEALERS : ");
 console.table(MY_FAVORITE_DEALERS);
-console.log(MY_FAVORITE_DEALERS[0]);
+
+console.log("lego set with the highest reduction : ", MY_FAVORITE_DEALERS[2]);
 
 
 
@@ -49,6 +54,8 @@ console.log(MY_FAVORITE_DEALERS[0]);
 // 1. Create a variable and assign it the number of deals
 // 2. Log the variable
 
+console.log("%c ------------------- TODO 2 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 let nb_deals = deals.length;
 console.log("nb de deals", nb_deals);
 
@@ -56,6 +63,8 @@ console.log("nb de deals", nb_deals);
 // 1. Create a variable and assign it the list of shopping community name only
 // 2. Log the variable
 // 3. Log how many shopping communities we have
+
+console.log("%c ------------------- TODO 3 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
 let community_names = new Set();
 
@@ -71,6 +80,8 @@ console.log("nb of shopping communities : ", community_names.size);
 // 1. Create a function to sort the deals by price
 // 2. Create a variable and assign it the list of sets by price from lowest to highest
 // 3. Log the variable
+
+console.log("%c ------------------- TODO 4 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
 function SortByPrice(a, b, order) {
   switch (order) {
@@ -93,6 +104,8 @@ console.table(deals_sortedPrice);
 // 2. Create a variable and assign it the list of deals by date from recent to old
 // 3. Log the variable
 
+console.log("%c ------------------- TODO 5 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 function SortByDate(a, b, order) {
   switch (order) {
     case "inc":
@@ -114,6 +127,8 @@ console.table(deals_sortedDate);
 // 1. Filter the list of deals between 50% and 75%
 // 2. Log the list
 
+console.log("%c ------------------- TODO 6 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 let deals_filtered = [];
 
 deals.forEach(deal => {
@@ -121,12 +136,14 @@ deals.forEach(deal => {
     deals_filtered.push(deal);
   }
 })
-
+console.log("filter deals between 50% and 75% : ");
 console.table(deals_filtered);
 
 // 🎯 TODO 7: Average percentage discount
 // 1. Determine the average percentage discount of the deals
 // 2. Log the average
+
+console.log("%c ------------------- TODO 7 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
 function AvgPercentageDiscount(data) {
   let total_percentage = 0;
@@ -159,6 +176,8 @@ console.log("avg percentage : ", AvgPercentageDiscount(deals_filtered));
 // 2. Log the variable
 // 3. Log the number of deals by community
 
+console.log("%c ------------------- TODO 8 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 const communities = {};
 
 deals.forEach(deal => {
@@ -185,8 +204,10 @@ keys.forEach(key =>
 // 1. For each community, sort the deals by discount price, from highest to lowest
 // 2. Log the sort
 
+console.log("%c ------------------- TODO 9 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 keys.forEach(key => {
-  console.log("sort", key,"by price ")
+  console.log("sort", key,"by price :")
   console.table(communities[key].sort((a,b) => SortByPrice(a,b,"dec")))
 })
 
@@ -195,8 +216,10 @@ keys.forEach(key => {
 // 1. For each set, sort the deals by date, from old to recent
 // 2. Log the sort
 
+console.log("%c ------------------- TODO 10 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 keys.forEach(key => {
-  console.log("sort", key,"by date ")
+  console.log("sort", key,"by date :")
   console.table(communities[key].sort((a,b) => SortByDate(a,b,"dec")))
 })
 
@@ -420,6 +443,10 @@ const VINTED = [
 // 2. Compute the p95 price value of the listing
 // 3. Compute the p99 price value of the listing
 // The p95 value (95th percentile) is the lower value expected to be exceeded in 95% of the vinted items
+
+
+
+
 
 // 🎯 TODO 12: Very old listed items
 // // 1. Log if we have very old items (true or false)
