@@ -426,7 +426,7 @@ const VINTED = [
     title: 'Lego 43230 cinepresa Disney',
     link: 'https://www.vinted.fr/items/4111571308-lego-43230-cinepresa-disney',
     price: 90,
-    released: '2024-09-16',
+    released: '2024-08-16',
     uuid: 'bd568392-3a6d-54e0-a8e2-20791cf59ea6'
   }
 ];
@@ -444,7 +444,16 @@ const VINTED = [
 // 3. Compute the p99 price value of the listing
 // The p95 value (95th percentile) is the lower value expected to be exceeded in 95% of the vinted items
 
+console.log("%c ------------------- TODO 11 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
+console.table(VINTED);
+
+function AvgPrice(data) {
+  let total_price = 0;
+  data.forEach(d => total_price += d.price );
+  return total_price / data.length;
+}
+console.log("average price value : ", AvgPrice(VINTED));
 
 
 
@@ -452,9 +461,29 @@ const VINTED = [
 // // 1. Log if we have very old items (true or false)
 // // A very old item is an item `released` more than 3 weeks ago.
 
+console.log("%c ------------------- TODO 12 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
+function isOldItem(data) {
+  let is_old_item = false;
+  data.forEach(item => {
+    const released_date = new Date(item.released);
+    const current_date = Date.now();
+    const timeDifference = current_date - released_date.getTime();
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+    if(daysDifference >= 21 ){
+      is_old_item =  true;
+    }
+  })
+  return is_old_item;
+}
+
+console.log("There are very old items : ", isOldItem(VINTED));
+
 // 🎯 TODO 13: Find a specific item
 // 1. Find the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
 // 2. Log the item
+
 
 // 🎯 TODO 14: Delete a specific item
 // 1. Delete the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
