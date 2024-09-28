@@ -112,6 +112,14 @@ console.table(deals_filtered);
 // 1. Determine the average percentage discount of the deals
 // 2. Log the average
 
+function AvgPercentageDiscount(data) {
+  let total_percentage = 0;
+  data.forEach(deal => total_percentage += deal.discount );
+  return total_percentage / data.length;
+}
+
+console.log("avg percentage : ", AvgPercentageDiscount(deals_filtered));
+
 /**
  * 🏎
  * We are almost done with the `deals` variable
