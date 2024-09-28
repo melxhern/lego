@@ -76,7 +76,7 @@ function SortByPrice(a, b, order) {
   switch (order) {
     case "inc":
       return a.price - b.price;
-    case "desc":
+    case "dec":
       return b.price - a.price;
     default:
       return a.price - b.price;  // increase by default
@@ -93,12 +93,20 @@ console.table(deals_sortedPrice);
 // 2. Create a variable and assign it the list of deals by date from recent to old
 // 3. Log the variable
 
-function SortByDate(a, b) {
-  return new Date(b.published) - new Date(a.published)
+function SortByDate(a, b, order) {
+  switch (order) {
+    case "inc":
+      return new Date(b.published) - new Date(a.published);
+    case "dec":
+      return new Date(a.published) - new Date(b.published);
+    default:
+      return new Date(b.published) - new Date(a.published);  // increase by default
+  }
 }
 
-let deals_sortedDate = deals.sort(SortByDate);
+let deals_sortedDate = deals.sort((a,b) => SortByDate(a,b, "inc"));
 
+console.log("sort by date : ");
 console.table(deals_sortedDate);
 
 
@@ -177,13 +185,20 @@ keys.forEach(key =>
 // 1. For each community, sort the deals by discount price, from highest to lowest
 // 2. Log the sort
 
-
+keys.forEach(key => {
+  console.log("sort", key,"by price ")
+  console.table(communities[key].sort((a,b) => SortByPrice(a,b,"dec")))
+})
 
 
 // 🎯 TODO 10: Sort by date for each community
 // 1. For each set, sort the deals by date, from old to recent
 // 2. Log the sort
 
+keys.forEach(key => {
+  console.log("sort", key,"by date ")
+  console.table(communities[key].sort((a,b) => SortByDate(a,b,"dec")))
+})
 
 /**
  * 🧥
