@@ -143,6 +143,28 @@ console.log("avg percentage : ", AvgPercentageDiscount(deals_filtered));
 // 2. Log the variable
 // 3. Log the number of deals by community
 
+const communities = {};
+
+deals.forEach(deal => {
+  const communityName = deal.community;
+
+  if (!communities[communityName]) {
+    communities[communityName] = [];
+  }
+
+  communities[communityName].push(deal);
+});
+
+console.log("communities : ", communities);
+
+let keys = Object.keys(communities);
+
+keys.forEach(key => 
+{
+  console.log(key , " : ", communities[key].length, " deals");
+});
+
+
 // 🎯 TODO 9: Sort by price for each community
 // 1. For each community, sort the deals by discount price, from highest to lowest
 // 2. Log the sort
@@ -385,7 +407,7 @@ const VINTED = [
 // 1. Delete the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
 // 2. Log the new list of items
 
-// 🎯 TODO 5: Save a favorite item
+// 🎯 TODO 15: Save a favorite item
 // We declare and assign a variable called `sealedCamera`
 let sealedCamera = {
   title: 'La caméra Hommage à Walt Disney lego set 43230',
@@ -416,7 +438,7 @@ sealedCamera = {
 // 3. Update `camera` property with `favorite` to true WITHOUT changing sealedCamera properties
 
 
-// 🎯 TODO 11: Compute the profitability
+// 🎯 TODO 16: Compute the profitability
 // From a specific deal called `deal`
 const deal = {
   'title':  'La caméra Hommage à Walt Disney',
