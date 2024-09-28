@@ -530,6 +530,13 @@ camera.favorite = true;
 // 1. Log `sealedCamera` and `camera` variables
 // 2. What do you notice?
 
+console.log("%c ------------------- TODO 15 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
+console.log("sealedCamera : ", sealedCamera);
+console.log("camera : ", camera);
+console.log("We notice that the property 'favorite' was created on both 'camera' and 'sealedCamera'");
+
+
 // we make (again) a new assignment again
 sealedCamera = {
   title: 'La caméra Hommage à Walt Disney lego set 43230',
@@ -540,6 +547,11 @@ sealedCamera = {
 };
 
 // 3. Update `camera` property with `favorite` to true WITHOUT changing sealedCamera properties
+console.log(' ------ ');
+camera.favorite = true;
+console.log("sealedCamera : ", sealedCamera);
+console.log("camera : ", camera);
+console.log("Here, the 'favorite' property was only added to the 'camera' variable");
 
 
 // 🎯 TODO 16: Compute the profitability
@@ -553,6 +565,9 @@ const deal = {
 
 // 1. Compute the potential highest profitability based on the VINTED items
 // 2. Log the value
+
+console.log("%c ------------------- TODO 16 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
 
 
 
