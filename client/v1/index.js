@@ -72,12 +72,20 @@ console.log("nb of shopping communities : ", community_names.size);
 // 2. Create a variable and assign it the list of sets by price from lowest to highest
 // 3. Log the variable
 
-function SortByPrice(a, b) {
-  return a.price - b.price;
+function SortByPrice(a, b, order) {
+  switch (order) {
+    case "inc":
+      return a.price - b.price;
+    case "desc":
+      return b.price - a.price;
+    default:
+      return a.price - b.price;  // increase by default
+  }
 }
 
-let deals_sortedPrice = deals.sort(SortByPrice);
+let deals_sortedPrice = deals.sort((a,b) => SortByPrice(a,b, "inc"));
 
+console.log("sorted by price : ");
 console.table(deals_sortedPrice);
 
 // 🎯 TODO 5: Sort by date
@@ -168,6 +176,9 @@ keys.forEach(key =>
 // 🎯 TODO 9: Sort by price for each community
 // 1. For each community, sort the deals by discount price, from highest to lowest
 // 2. Log the sort
+
+
+
 
 // 🎯 TODO 10: Sort by date for each community
 // 1. For each set, sort the deals by date, from old to recent
