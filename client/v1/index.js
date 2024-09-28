@@ -499,6 +499,18 @@ console.log(findItemById(VINTED, id));
 // 1. Delete the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
 // 2. Log the new list of items
 
+console.log("%c ------------------- TODO 14 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
+function deletemItemById(data, id) {
+  return data.filter(item => item.uuid !== id);
+}
+
+console.log("VINTED items without the item", id, " : ");
+
+const vinted_filtered = deletemItemById(VINTED, id);
+console.table(vinted_filtered);
+
+
 // 🎯 TODO 15: Save a favorite item
 // We declare and assign a variable called `sealedCamera`
 let sealedCamera = {
