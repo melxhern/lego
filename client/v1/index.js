@@ -547,6 +547,7 @@ sealedCamera = {
 };
 
 // 3. Update `camera` property with `favorite` to true WITHOUT changing sealedCamera properties
+
 console.log(' ------ ');
 camera.favorite = true;
 console.log("sealedCamera : ", sealedCamera);
@@ -568,8 +569,24 @@ const deal = {
 
 console.log("%c ------------------- TODO 16 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
+function maxProfit(deal, data) {
+  let max_profit = 0;
+  let best_item = null; 
 
+  data.forEach(item => {
+    const profit = item.price - deal.price;
 
+    if(profit > max_profit){
+      max_profit = profit;
+      best_item = item;
+    }
+  })
+  return {max_profit, best_item};
+}
+
+const result = maxProfit(deal, VINTED);
+console.log("Maximum potential profitability:", result.max_profit, "€");
+console.log("Best Vinted item for profitability:", result.best_item);
 
 /**
  * 🎬
