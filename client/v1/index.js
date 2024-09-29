@@ -455,6 +455,20 @@ function AvgPrice(data) {
 }
 console.log("average price value : ", AvgPrice(VINTED));
 
+function Percentile(data, p){
+  const k = data.length;
+  let n = (k-1) * p; // because index starts at 0
+  n = Math.ceil(n); // always rounds up
+  let data_sorted = data.sort((a,b) => SortByPrice(a,b, "inc"));
+
+  return data_sorted[n];
+}
+
+const p95 = Percentile(VINTED, 0.95);
+const p99 = Percentile(VINTED, 0.99);
+
+console.log("95th percentile :", p95);
+console.log("99th percentile :", p99);
 
 
 // 🎯 TODO 12: Very old listed items
@@ -463,7 +477,7 @@ console.log("average price value : ", AvgPrice(VINTED));
 
 console.log("%c ------------------- TODO 12 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
-function isOldItem(data) {
+function IsOldItem(data) {
   let is_old_item = false;
   data.forEach(item => {
     const released_date = new Date(item.released);
@@ -478,7 +492,7 @@ function isOldItem(data) {
   return is_old_item;
 }
 
-console.log("There are very old items : ", isOldItem(VINTED));
+console.log("There are very old items : ", IsOldItem(VINTED));
 
 // 🎯 TODO 13: Find a specific item
 // 1. Find the item with the uuid `f2c5377c-84f9-571d-8712-98902dcbb913`
@@ -486,13 +500,13 @@ console.log("There are very old items : ", isOldItem(VINTED));
 
 console.log("%c ------------------- TODO 13 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
-function findItemById(data, id){
+function FindItemById(data, id){
   return data.find(item => item.uuid === id);
 }
 
 const id = 'f2c5377c-84f9-571d-8712-98902dcbb913';
 console.log("item with the id", id,":");
-console.log(findItemById(VINTED, id));
+console.log(FindItemById(VINTED, id));
 
 
 // 🎯 TODO 14: Delete a specific item
@@ -501,13 +515,13 @@ console.log(findItemById(VINTED, id));
 
 console.log("%c ------------------- TODO 14 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
-function deletemItemById(data, id) {
+function DeletemItemById(data, id) {
   return data.filter(item => item.uuid !== id);
 }
 
 console.log("VINTED items without the item", id, " : ");
 
-const vinted_filtered = deletemItemById(VINTED, id);
+const vinted_filtered = DeletemItemById(VINTED, id);
 console.table(vinted_filtered);
 
 
@@ -569,7 +583,7 @@ const deal = {
 
 console.log("%c ------------------- TODO 16 ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
 
-function maxProfit(deal, data) {
+function MaxProfit(deal, data) {
   let max_profit = 0;
   let best_item = null; 
 
@@ -584,7 +598,7 @@ function maxProfit(deal, data) {
   return {max_profit, best_item};
 }
 
-const result = maxProfit(deal, VINTED);
+const result = MaxProfit(deal, VINTED);
 console.log("Maximum potential profitability:", result.max_profit, "€");
 console.log("Best Vinted item for profitability:", result.best_item);
 
