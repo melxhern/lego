@@ -611,3 +611,10 @@ console.log("Best Vinted item for profitability:", result.best_item);
 // 🎯 LAST TODO: Save in localStorage
 // 1. Save MY_FAVORITE_DEALERS in the localStorage
 // 2. log the localStorage
+
+console.log("%c ------------------- LAST TODO ------------------- ", "color: #f769ec; font-weight: bold; font-size: 18px;");
+
+localStorage.setItem('favoriteDealers', JSON.stringify(MY_FAVORITE_DEALERS));
+
+const storedDealers = localStorage.getItem('favoriteDealers');
+console.log("Favorite Dealers from localStorage:", JSON.parse(storedDealers));
