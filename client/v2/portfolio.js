@@ -216,11 +216,16 @@ sortBy.addEventListener('change', async (event) => {
     case "price-desc":
       currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "dec"));
       break;
+    case "date-asc":
+      currentDeals = currentDeals.sort((a,b) => SortByDate(a,b, "inc"));
+      break;
+    case "date-desc":
+        currentDeals = currentDeals.sort((a,b) => SortByDate(a,b, "dec"));
+        break;
     default:
       currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "dec"));
       break;
   }
-  console.table(currentDeals);
   RemoveAllFilters();
   render(currentDeals, currentPagination);
 });
@@ -334,5 +339,16 @@ function SortByPrice(a, b, order) {
       return b.price - a.price;
     default:
       return a.price - b.price;  // increase by default
+  }
+}
+
+function SortByDate(a, b, order) {
+  switch (order) {
+    case "inc":
+      return new Date(b.published) - new Date(a.published);
+    case "dec":
+      return new Date(a.published) - new Date(b.published);
+    default:
+      return new Date(b.published) - new Date(a.published);  // increase by default
   }
 }
