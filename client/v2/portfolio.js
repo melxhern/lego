@@ -27,6 +27,7 @@ let currentPagination = {};
 
 let isDiscountFiltered = false;
 let isCommentedFiltered = false;
+let isHotDealFiltered = false;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -37,6 +38,7 @@ const spanNbDeals = document.querySelector('#nbDeals');
 
 const discountButton = document.getElementById("discountButton");
 const commentedButton = document.getElementById("commentedButton");
+const hotDealButton = document.getElementById("hotDealButton");
 
 
 /**
@@ -200,6 +202,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 async function onClickBestDiscount(){
+  RemoveAllFilters("discount");
+
   if(isDiscountFiltered){
     const deals = await fetchDeals(parseInt(selectPage.value), parseInt(selectShow.value)); 
     setCurrentDeals(deals);
@@ -213,14 +217,11 @@ async function onClickBestDiscount(){
       if(deal.discount >= 50){
         deals_filtered.push(deal);
       }
-    })
-    console.log("deals : ", currentDeals);
-    console.log("deals filtered : ", deals_filtered);
-  
+    }) 
+
     isDiscountFiltered = true;
     discountButton.style.backgroundColor = "lightblue";
     currentDeals = deals_filtered;
-    //setCurrentDeals(deals);
   }
   render(currentDeals, currentPagination);
 
@@ -228,6 +229,8 @@ async function onClickBestDiscount(){
 
 
 async function onClickMostCommented(){
+  RemoveAllFilters("commented");
+
   if(isCommentedFiltered){
     const deals = await fetchDeals(parseInt(selectPage.value), parseInt(selectShow.value)); 
     setCurrentDeals(deals);
@@ -242,22 +245,57 @@ async function onClickMostCommented(){
         deals_filtered.push(deal);
       }
     })
-    console.log("deals : ", currentDeals);
-    console.log("deals filtered : ", deals_filtered);
-  
+
     isCommentedFiltered = true;
     commentedButton.style.backgroundColor = "lightblue";
     currentDeals = deals_filtered;
-    //setCurrentDeals(deals);
   }
   render(currentDeals, currentPagination);
 
 }
 
-function RemoveAllFilters() {
-  isDiscountFiltered = false;
-  discountButton.style.backgroundColor = "";
+async function onClickHotDeals(){
+  await RemoveAllFilters("hotDeal");
 
-  isCommentedFiltered = false;
-  commentedButton.style.backgroundColor = "";
+  if(isHotDealFiltered){
+    const deals = await fetchDeals(parseInt(selectPage.value), parseInt(selectShow.value)); 
+    setCurrentDeals(deals);
+    isHotDealFiltered = false; 
+    hotDealButton.style.backgroundColor = "";
+  }
+  else{
+    let deals_filtered = [];
+
+    currentDeals.forEach(deal => {
+      if(deal.temperature >= 100){
+        deals_filtered.push(deal);
+      }
+    })
+  
+    isHotDealFiltered = true;
+    hotDealButton.style.backgroundColor = "lightblue";
+    currentDeals = deals_filtered;
+  }
+  render(currentDeals, currentPagination);
+
+}
+
+async function RemoveAllFilters(filterToKeep = null) {
+  const deals = await fetchDeals(parseInt(selectPage.value), parseInt(selectShow.value)); 
+  setCurrentDeals(deals);
+
+  if (filterToKeep !== "discount") {
+    isDiscountFiltered = false;
+    discountButton.style.backgroundColor = "";
+  }
+  
+  if (filterToKeep !== "commented") {
+    isCommentedFiltered = false;
+    commentedButton.style.backgroundColor = "";
+  }
+  
+  if (filterToKeep !== "hotDeal") {
+    isHotDealFiltered = false;
+    hotDealButton.style.backgroundColor = ""; 
+  }
 }
