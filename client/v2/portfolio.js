@@ -25,12 +25,17 @@ This endpoint accepts the following optional query string parameters:
 let currentDeals = [];
 let currentPagination = {};
 
+let isDiscountFiltered = false;
+
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectLegoSetIds = document.querySelector('#lego-set-id-select');
 const sectionDeals= document.querySelector('#deals');
 const spanNbDeals = document.querySelector('#nbDeals');
+
+const discountButton = document.getElementById("discountButton");
+
 
 /**
  * Set global value
@@ -157,6 +162,7 @@ selectShow.addEventListener('change', async (event) => {
   }
   const deals = await fetchDeals(page, showNbDeals);
 
+  RemoveAllFilters();
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
 });
@@ -176,7 +182,8 @@ selectPage.addEventListener('change', async (event) => {
   }
 
   const deals = await fetchDeals(page, parseInt(selectShow.value));
-
+  
+  RemoveAllFilters();
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
 });
@@ -188,3 +195,37 @@ document.addEventListener('DOMContentLoaded', async () => {
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
 });
+
+
+async function onClickBestDiscount(){
+  if(isDiscountFiltered){
+    const deals = await fetchDeals(parseInt(selectPage.value), parseInt(selectShow.value)); 
+    setCurrentDeals(deals);
+    isDiscountFiltered = false; 
+    discountButton.style.backgroundColor = "";
+  }
+  else{
+    let deals_filtered = [];
+
+    currentDeals.forEach(deal => {
+      if(deal.discount >= 50){
+        deals_filtered.push(deal);
+      }
+    })
+    console.log("deals : ", currentDeals);
+    console.log("deals filtered : ", deals_filtered);
+  
+    isDiscountFiltered = true;
+    discountButton.style.backgroundColor = "lightblue";
+    currentDeals = deals_filtered;
+    //setCurrentDeals(deals);
+  }
+  render(currentDeals, currentPagination);
+
+}
+
+function RemoveAllFilters() {
+  isDiscountFiltered = false;
+  discountButton.style.backgroundColor = "";
+
+}
