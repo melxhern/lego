@@ -145,11 +145,42 @@ const render = (deals, pagination) => {
  * Select the number of deals to display
  */
 selectShow.addEventListener('change', async (event) => {
-  const deals = await fetchDeals(currentPagination.currentPage, parseInt(event.target.value));
+  let page = currentPagination.currentPage;
+  const showNbDeals = parseInt(event.target.value)
+  
+  let test = page * showNbDeals;
+
+  if(test > spanNbDeals.textContent){
+    page = spanNbDeals.textContent / showNbDeals;
+    page = Math.ceil(page); // always round the page up
+
+  }
+  const deals = await fetchDeals(page, showNbDeals);
 
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
 });
+
+
+/**
+ * Select the page to display
+ */
+selectPage.addEventListener('change', async (event) => {
+  let page = parseInt(event.target.value);
+  let test = page * currentDeals.length;
+
+  if(test > spanNbDeals.textContent){
+    page = spanNbDeals.textContent / currentDeals.length;
+    page = Math.ceil(page);
+
+  }
+
+  const deals = await fetchDeals(page, parseInt(selectShow.value));
+
+  setCurrentDeals(deals);
+  render(currentDeals, currentPagination);
+});
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   const deals = await fetchDeals();
