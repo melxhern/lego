@@ -26,6 +26,7 @@ let currentDeals = [];
 let currentPagination = {};
 
 let isDiscountFiltered = false;
+let isCommentedFiltered = false;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -35,6 +36,7 @@ const sectionDeals= document.querySelector('#deals');
 const spanNbDeals = document.querySelector('#nbDeals');
 
 const discountButton = document.getElementById("discountButton");
+const commentedButton = document.getElementById("commentedButton");
 
 
 /**
@@ -224,8 +226,38 @@ async function onClickBestDiscount(){
 
 }
 
+
+async function onClickMostCommented(){
+  if(isCommentedFiltered){
+    const deals = await fetchDeals(parseInt(selectPage.value), parseInt(selectShow.value)); 
+    setCurrentDeals(deals);
+    isCommentedFiltered = false; 
+    commentedButton.style.backgroundColor = "";
+  }
+  else{
+    let deals_filtered = [];
+
+    currentDeals.forEach(deal => {
+      if(deal.comments >= 15){
+        deals_filtered.push(deal);
+      }
+    })
+    console.log("deals : ", currentDeals);
+    console.log("deals filtered : ", deals_filtered);
+  
+    isCommentedFiltered = true;
+    commentedButton.style.backgroundColor = "lightblue";
+    currentDeals = deals_filtered;
+    //setCurrentDeals(deals);
+  }
+  render(currentDeals, currentPagination);
+
+}
+
 function RemoveAllFilters() {
   isDiscountFiltered = false;
   discountButton.style.backgroundColor = "";
 
+  isCommentedFiltered = false;
+  commentedButton.style.backgroundColor = "";
 }
