@@ -33,6 +33,7 @@ let isHotDealFiltered = false;
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectLegoSetIds = document.querySelector('#lego-set-id-select');
+const sortBy = document.querySelector('#sort-select');
 const sectionDeals= document.querySelector('#deals');
 const spanNbDeals = document.querySelector('#nbDeals');
 
@@ -201,6 +202,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
+/**
+ * Sort by the value choosen
+ */
+sortBy.addEventListener('change', async (event) => {
+
+  const sortValue = event.target.value; 
+
+  switch(sortValue) {
+    case "price-asc":
+      currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "inc"));
+      break;
+    case "price-desc":
+      currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "dec"));
+      break;
+    default:
+      currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "dec"));
+      break;
+  }
+  console.table(currentDeals);
+  RemoveAllFilters();
+  render(currentDeals, currentPagination);
+});
+
+
+
 async function onClickBestDiscount(){
   RemoveAllFilters("discount");
 
@@ -297,5 +323,16 @@ async function RemoveAllFilters(filterToKeep = null) {
   if (filterToKeep !== "hotDeal") {
     isHotDealFiltered = false;
     hotDealButton.style.backgroundColor = ""; 
+  }
+}
+
+function SortByPrice(a, b, order) {
+  switch (order) {
+    case "inc":
+      return a.price - b.price;
+    case "dec":
+      return b.price - a.price;
+    default:
+      return a.price - b.price;  // increase by default
   }
 }
