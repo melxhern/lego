@@ -25,6 +25,8 @@ This endpoint accepts the following optional query string parameters:
 let currentDeals = [];
 let currentPagination = {};
 
+let vintedSales = [];
+
 let isDiscountFiltered = false;
 let isCommentedFiltered = false;
 let isHotDealFiltered = false;
@@ -35,6 +37,7 @@ const selectPage = document.querySelector('#page-select');
 const selectLegoSetIds = document.querySelector('#lego-set-id-select');
 const sortBy = document.querySelector('#sort-select');
 const sectionDeals= document.querySelector('#deals');
+const sectionVinted = document.querySelector('#vinted');
 const spanNbDeals = document.querySelector('#nbDeals');
 
 const discountButton = document.getElementById("discountButton");
@@ -51,6 +54,7 @@ const setCurrentDeals = ({result, meta}) => {
   currentDeals = result;
   currentPagination = meta;
 };
+
 
 /**
  * Fetch deals from api
@@ -77,6 +81,33 @@ const fetchDeals = async (page = 1, size = 6) => {
   }
 };
 
+
+
+/**
+ * Fetch deals from api
+ * @param  {Number}  [id = null] - id of the lego to fetch Vinted Sales
+ * @return {Object}
+ */
+const fetchVintedFromId = async (id = null) => {
+  try {
+    const response = await fetch(
+      `https://lego-api-blue.vercel.app/sales?id=${id}`
+    );
+    const body = await response.json();
+
+    if (body.success !== true) {
+      console.error(body);
+      return {currentDeals, currentPagination};
+    }
+
+    return body.data;
+  } catch (error) {
+    console.error(error);
+    return {currentDeals, currentPagination};
+  }
+};
+
+
 /**
  * Render list of deals
  * @param  {Array} deals
@@ -102,6 +133,37 @@ const renderDeals = deals => {
   sectionDeals.appendChild(fragment);
 };
 
+
+/**
+ * Render list of deals
+ * @param  {Array} sales
+ */
+const renderVintedSales = sales => {
+  const salesArray = sales.result;
+  console.log("sales : ", sales.result);
+  //console.log("lego : ", parseInt(selectLegoSetIds.value));
+  
+  const fragment = document.createDocumentFragment();
+  const div = document.createElement('div');
+  const template = salesArray
+    .map(sale => {
+      return `
+      <div class="sale" id=${sale.uuid}>
+        <span>${parseInt(selectLegoSetIds.value)}</span>
+        <a href="${sale.link}">${sale.title}</a>
+        <span>${sale.price}</span>
+      </div>
+    `;
+    })
+    .join('');
+
+  div.innerHTML = template;
+  fragment.appendChild(div);
+  sectionVinted.innerHTML = '<h2>Vinted Sales</h2>';
+  sectionVinted.appendChild(fragment);
+};
+
+
 /**
  * Render page selector
  * @param  {Object} pagination
@@ -123,9 +185,10 @@ const renderPagination = pagination => {
  */
 const renderLegoSetIds = deals => {
   const ids = getIdsFromDeals(deals);
-  const options = ids.map(id => 
-    `<option value="${id}">${id}</option>`
-  ).join('');
+  const options =  [
+    '<option value=""></option>', // Option vide
+    ...ids.map(id => `<option value="${id}">${id}</option>`)
+  ].join('');
 
   selectLegoSetIds.innerHTML = options;
 };
@@ -144,7 +207,7 @@ const render = (deals, pagination) => {
   renderDeals(deals);
   renderPagination(pagination);
   renderIndicators(pagination);
-  renderLegoSetIds(deals)
+  renderLegoSetIds(deals);
 };
 
 /**
@@ -174,6 +237,31 @@ selectShow.addEventListener('change', async (event) => {
 
 
 /**
+ * Select the number of deals to display
+ */
+selectLegoSetIds.addEventListener('change', async() => {
+  let selectedLegoId = selectLegoSetIds.value;
+  console.log("lego id : ", selectedLegoId);
+
+  sectionVinted.innerHTML = '';
+  
+  // Vérifiez si une option valide est sélectionnée
+  if (selectedLegoId) {
+    try {
+      // Appeler fetchVintedFromId avec la valeur sélectionnée
+      const sales = await fetchVintedFromId(selectedLegoId);
+      console.log("Fetched Sales Data:", sales);
+      renderVintedSales(sales); // Appelle la fonction pour rendre les ventes
+
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+    }
+  }
+
+});
+
+
+/**
  * Select the page to display
  */
 selectPage.addEventListener('change', async (event) => {
@@ -196,6 +284,8 @@ selectPage.addEventListener('change', async (event) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const deals = await fetchDeals();
+  //const sales = await fetchVintedFromId();
+  //renderVintedSales(sales);
 
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
