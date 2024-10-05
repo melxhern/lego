@@ -128,7 +128,7 @@ const renderDeals = deals => {
       return `
       <div class="deal" id=${deal.uuid}>
         <span>${deal.id}</span>
-        <a href="${deal.link}">${deal.title}</a>
+        <a href="${deal.link}" target="_blank">${deal.title}</a>
         <span>${deal.price}</span>
       </div>
     `;
@@ -156,7 +156,7 @@ const renderVintedSales = sales => {
       return `
       <div class="sale" id=${sale.uuid}>
         <span>${parseInt(selectLegoSetIds.value)}</span>
-        <a href="${sale.link}">${sale.title}</a>
+        <a href="${sale.link}" target="_blank">${sale.title}</a>
         <span>${sale.price}</span>
       </div>
     `;
@@ -497,4 +497,8 @@ function LifetimeValue(data) {
   console.log("oldest value : ", oldestValue);
   console.log("days :", days);
   return days;
+}
+
+function openInNewTab(url) {
+  window.open(url, '_blank').focus();
 }
