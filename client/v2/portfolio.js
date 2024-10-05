@@ -39,6 +39,7 @@ const sortBy = document.querySelector('#sort-select');
 const sectionDeals= document.querySelector('#deals');
 const sectionVinted = document.querySelector('#vinted');
 const spanNbDeals = document.querySelector('#nbDeals');
+const spanNbSales = document.querySelector('#nbSales');
 
 const discountButton = document.getElementById("discountButton");
 const commentedButton = document.getElementById("commentedButton");
@@ -139,13 +140,13 @@ const renderDeals = deals => {
  * @param  {Array} sales
  */
 const renderVintedSales = sales => {
-  const salesArray = sales.result;
+  vintedSales = sales.result;
   console.log("sales : ", sales.result);
   //console.log("lego : ", parseInt(selectLegoSetIds.value));
   
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
-  const template = salesArray
+  const template = vintedSales
     .map(sale => {
       return `
       <div class="sale" id=${sale.uuid}>
@@ -201,7 +202,10 @@ const renderIndicators = pagination => {
   const {count} = pagination;
 
   spanNbDeals.innerHTML = count;
+  console.log("nb sales : ", vintedSales.length);
+  spanNbSales.innerHTML = vintedSales.length;
 };
+
 
 const render = (deals, pagination) => {
   renderDeals(deals);
@@ -252,7 +256,7 @@ selectLegoSetIds.addEventListener('change', async() => {
       const sales = await fetchVintedFromId(selectedLegoId);
       console.log("Fetched Sales Data:", sales);
       renderVintedSales(sales); // Appelle la fonction pour rendre les ventes
-
+      renderIndicators(currentPagination);
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
