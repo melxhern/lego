@@ -45,6 +45,7 @@ const spanP5 = document.querySelector("#p5");
 const spanP25 = document.querySelector("#p25");
 const spanP50 = document.querySelector("#p50");
 const spanP95 = document.querySelector("#p95");
+const spanLifetime = document.querySelector("#lifetime");
 
 
 const discountButton = document.getElementById("discountButton");
@@ -147,8 +148,6 @@ const renderDeals = deals => {
  */
 const renderVintedSales = sales => {
   vintedSales = sales.result;
-  console.log("sales : ", sales.result);
-  //console.log("lego : ", parseInt(selectLegoSetIds.value));
   
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
@@ -208,7 +207,6 @@ const renderIndicators = pagination => {
   const {count} = pagination;
 
   spanNbDeals.innerHTML = count;
-  console.log("nb sales : ", vintedSales.length);
   spanNbSales.innerHTML = vintedSales.length;
 
   spanAvg.innerHTML = parseFloat(AvgPrice(vintedSales)).toFixed(2);
@@ -216,6 +214,8 @@ const renderIndicators = pagination => {
   spanP25.innerHTML = Percentile(vintedSales, 0.25);
   spanP50.innerHTML = Percentile(vintedSales, 0.5);
   spanP95.innerHTML = Percentile(vintedSales, 0.95);
+
+  spanLifetime.innerHTML = LifetimeValue(vintedSales) + " days";
 };
 
 
@@ -257,7 +257,6 @@ selectShow.addEventListener('change', async (event) => {
  */
 selectLegoSetIds.addEventListener('change', async() => {
   let selectedLegoId = selectLegoSetIds.value;
-  console.log("lego id : ", selectedLegoId);
 
   sectionVinted.innerHTML = '';
   
@@ -266,7 +265,6 @@ selectLegoSetIds.addEventListener('change', async() => {
     try {
       // Appeler fetchVintedFromId avec la valeur sélectionnée
       const sales = await fetchVintedFromId(selectedLegoId);
-      console.log("Fetched Sales Data:", sales);
       renderVintedSales(sales); // Appelle la fonction pour rendre les ventes
       renderIndicators(currentPagination);
     } catch (error) {
@@ -481,4 +479,22 @@ function Percentile(data, p){
     return data_sorted[n].price;
   }
   else return 0;
+}
+
+function LifetimeValue(data) {
+  let oldestValue = 0;
+  
+  data.forEach(item => {
+    const released_date = new Date(item.published);
+    const current_date = Date.now();
+    const timeDifference = current_date - released_date.getTime();
+    if(timeDifference>oldestValue){
+      oldestValue = released_date;
+    }    
+  })
+
+  const days = Math.ceil(oldestValue / (1000 * 60 * 60 * 24));
+  console.log("oldest value : ", oldestValue);
+  console.log("days :", days);
+  return days;
 }
