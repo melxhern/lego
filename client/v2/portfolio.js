@@ -40,6 +40,12 @@ const sectionDeals= document.querySelector('#deals');
 const sectionVinted = document.querySelector('#vinted');
 const spanNbDeals = document.querySelector('#nbDeals');
 const spanNbSales = document.querySelector('#nbSales');
+const spanAvg = document.querySelector("#avg");
+const spanP5 = document.querySelector("#p5");
+const spanP25 = document.querySelector("#p25");
+const spanP50 = document.querySelector("#p50");
+const spanP95 = document.querySelector("#p95");
+
 
 const discountButton = document.getElementById("discountButton");
 const commentedButton = document.getElementById("commentedButton");
@@ -204,6 +210,12 @@ const renderIndicators = pagination => {
   spanNbDeals.innerHTML = count;
   console.log("nb sales : ", vintedSales.length);
   spanNbSales.innerHTML = vintedSales.length;
+
+  spanAvg.innerHTML = parseFloat(AvgPrice(vintedSales)).toFixed(2);
+  spanP5.innerHTML = Percentile(vintedSales, 0.05);
+  spanP25.innerHTML = Percentile(vintedSales, 0.25);
+  spanP50.innerHTML = Percentile(vintedSales, 0.5);
+  spanP95.innerHTML = Percentile(vintedSales, 0.95);
 };
 
 
@@ -445,4 +457,28 @@ function SortByDate(a, b, order) {
     default:
       return new Date(b.published) - new Date(a.published);  // increase by default
   }
+}
+
+function AvgPrice(data) {
+  if(data !== null && data !== undefined && data.length !== 0){
+    let total_price = 0;
+    data.forEach(d => {
+      total_price += parseFloat(d.price);
+    });
+    
+    return total_price / data.length;
+  }
+  else return 0;
+}
+
+
+function Percentile(data, p){
+  if(data !== null && data !== undefined && data.length !== 0){
+    const k = data.length;
+    let n = (k-1) * p; // because index starts at 0
+    n = Math.ceil(n); // always rounds up
+    let data_sorted = data.sort((a,b) => SortByPrice(a,b, "inc"));
+    return data_sorted[n].price;
+  }
+  else return 0;
 }
