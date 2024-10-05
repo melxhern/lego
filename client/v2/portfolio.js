@@ -26,6 +26,7 @@ let currentDeals = [];
 let currentPagination = {};
 
 let vintedSales = [];
+let favorites = new Set(); 
 
 let isDiscountFiltered = false;
 let isCommentedFiltered = false;
@@ -125,8 +126,14 @@ const renderDeals = deals => {
   const div = document.createElement('div');
   const template = deals
     .map(deal => {
+      const isFavorite = favorites.has(deal.uuid);
+      const heartIcon = isFavorite
+        ? `<img width="22" height="22" src="https://img.icons8.com/material/24/hearts--v1.png" alt="hearts--v1" onclick="RemoveFromFavorite('${deal.uuid}')" />`
+        : `<img width="22" height="22" src="https://img.icons8.com/material-outlined/24/hearts.png" alt="hearts" onclick="AddToFavorite('${deal.uuid}')" />`;
+
       return `
       <div class="deal" id=${deal.uuid}>
+        ${heartIcon}
         <span>${deal.id}</span>
         <a href="${deal.link}" target="_blank">${deal.title}</a>
         <span>${deal.price}</span>
@@ -494,11 +501,19 @@ function LifetimeValue(data) {
   })
 
   const days = Math.ceil(oldestValue / (1000 * 60 * 60 * 24));
-  console.log("oldest value : ", oldestValue);
-  console.log("days :", days);
   return days;
 }
 
-function openInNewTab(url) {
-  window.open(url, '_blank').focus();
+
+function AddToFavorite(uuid) {
+  favorites.add(uuid);
+  console.log(favorites);
+  renderDeals(currentDeals);
+
+}
+
+function RemoveFromFavorite(uuid){
+  favorites.delete(uuid);
+  console.log(favorites);
+  renderDeals(currentDeals);
 }
