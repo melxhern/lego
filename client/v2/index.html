@@ -3,81 +3,128 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>🧱 Lego | Predictability of a lego set deal</title>
+    <style>
+      @font-face {
+        font-family: 'LegoFont'; /* Premier fichier de police */
+        src: url('fonts/lego.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: 'LegoThick'; /* Deuxième fichier de police */
+        src: url('fonts/legothick.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+
+      table {
+          /* margin: 0 auto; */
+          width: 100%;
+          border-collapse: collapse;
+      }
+
+      th, td {
+          border: 1px solid #ccc; /* Bordure pour les cellules */
+          padding: 8px; /* Espacement à l'intérieur des cellules */
+          text-align: center; /* Alignement du texte à gauche */
+      }
+      th {
+          background-color: #ffd90088; 
+      }
+      
+
+  </style>
   </head>
   <body>
-    <h1>Lego</h1>
-    <section id="options">
-      <div id="show">
-        <label for="show-select">Show:</label>
-        <select name="show" id="show-select">
-          <option value="6">6</option>
-          <option value="12">12</option>
-          <option value="24">24</option>
-        </select>
+    <div id="whole-page" style="width: 85%; margin: 0 auto;">
+      <div id="image" style="background-color: #da291c; width: 100%; text-align: center;">
+        <img src="logo.png" alt="logo" width="auto" height="150rem">
       </div>
-      <div id="page">
-        <label for="page-select">Go to page:</label>
-        <select name="page" id="page-select"> </select>
+    
+      <section id="lego">
+        <h2 style="font-family: 'LegoFont'; font-size: 3rem;">LEGO SETS</h2>
+        <div>
+          <label>Lego set id:</label>
+          <select id="lego-set-id-select"></select> 
+        </div>
+      </section>
+      <section id="indicators">
+        <h2 style="font-family: 'LegoFont'; font-size: 3rem;">INDICATORS</h2>
+        <div>
+          <span>Number of deals :</span>
+          <span id="nbDeals">0</span>
+        </div>
+        <div>
+          <span>Number of sales :</span>
+          <span id="nbSales">0</span>
+        </div>
+        <div>
+          <span>Average sales price value :</span>
+          <span id="avg">0</span>
+        </div>
+        <div>
+          <span>p5 sales price value :</span>
+          <span id="p5">0</span>
+        </div>
+        <div>
+          <span>p25 sales price value :</span>
+          <span id="p25">0</span>
+        </div>
+        <div>
+          <span>p50 sales price value :</span>
+          <span id="p50">0</span>
+        </div>
+        <div>
+          <span>p95 sales price value :</span>
+          <span id="p95">0</span>
+        </div>
+        <div>
+          <span>Lifetime value :</span>
+          <span id="lifetime">10 days</span>
+        </div>
+      </section>
+
+      
+
+      <h2 style="font-family: 'LegoFont'; font-size: 3rem;">DEALS</h2>
+        <section id="options" style="margin-bottom: 1rem;">      
+          <div id="filters">
+            <button id="discountButton" onclick="onClickBestDiscount()" style="margin-right: 10px;">By best discount</span>
+            <button id="commentedButton" onclick="onClickMostCommented()" style="margin-right: 10px;">By most commented</span>
+            <button id="hotDealButton" onclick="onClickHotDeals()" >By hot deals</span>
+          </div>
+          <div id="sort">
+            <label for="sort-select">Sort:</label>
+            <select name="sort" id="sort-select">
+              <option value="price-asc">Cheaper</option>
+              <option value="price-desc">Expensive</option>
+              <option value="date-asc">Recently published</option>
+              <option value="date-desc">Anciently published</option>
+            </select>
+          </div>
+        </section>
+
+      <section id="deals"></section>
+      <div style="justify-content: center; margin-top: 1rem; display: flex; ">
+        <div id="page">
+          <label for="page-select">Go to page:</label>
+          <select name="page" id="page-select"></select>
+        </div>
+        <div id="show" style="margin-left: 1rem;">
+          <label for="show-select">Show:</label>
+          <select name="show" id="show-select">
+            <option value="6">6</option>
+            <option value="12">12</option>
+            <option value="24">24</option>
+          </select>
+        </div>
       </div>
-      <div id="filters">
-        <button id="discountButton" onclick="onClickBestDiscount()" style="margin-right: 10px;">By best discount</span>
-        <button id="commentedButton" onclick="onClickMostCommented()" style="margin-right: 10px;">By most commented</span>
-        <button id="hotDealButton" onclick="onClickHotDeals()" >By hot deals</span>
-      </div>
-      <div id="sort">
-        <label for="sort-select">Sort:</label>
-        <select name="sort" id="sort-select">
-          <option value="price-asc">Cheaper</option>
-          <option value="price-desc">Expensive</option>
-          <option value="date-asc">Recently published</option>
-          <option value="date-desc">Anciently published</option>
-        </select>
-      </div>
-    </section>
-    <section id="lego">
-      <h2>Lego sets</h2>
-      <div>
-        <label>Lego set id:</label>
-        <select id="lego-set-id-select"></select> 
-      </div>
-    </section>
-    <section id="indicators">
-      <h2>Indicators</h2>
-      <div>
-        <span>Number of deals :</span>
-        <span id="nbDeals">0</span>
-      </div>
-      <div>
-        <span>Number of sales :</span>
-        <span id="nbSales">0</span>
-      </div>
-      <div>
-        <span>Average sales price value :</span>
-        <span id="avg">0</span>
-      </div>
-      <div>
-        <span>p5 sales price value :</span>
-        <span id="p5">0</span>
-      </div>
-      <div>
-        <span>p25 sales price value :</span>
-        <span id="p25">0</span>
-      </div>
-      <div>
-        <span>p50 sales price value :</span>
-        <span id="p50">0</span>
-      </div>
-      <div>
-        <span>p95 sales price value :</span>
-        <span id="p95">0</span>
-      </div>
-      <div>
-        <span>Lifetime value :</span>
-        <span id="lifetime">10 days</span>
-      </div>
-    </section>
-    <section id="deals"></section>
-    <section id="vinted"></section>
+      
+      <section id="vinted"></section>
+    </div>
+    
     <script type="text/javascript" charset="UTF-8" src="utils.js"></script>
     <script type="text/javascript" charset="UTF-8" src="portfolio.js"></script>
   </body>

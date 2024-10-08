@@ -32,6 +32,9 @@ let isDiscountFiltered = false;
 let isCommentedFiltered = false;
 let isHotDealFiltered = false;
 
+let sortPriceState = 0; // 0: no sort, 1: ascending, 2: descending
+let sortDateState = 0; // 0: no sort, 1: ascending, 2: descending
+
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
@@ -124,27 +127,48 @@ const fetchVintedFromId = async (id = null) => {
 const renderDeals = deals => {
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
-  const template = deals
-    .map(deal => {
-      const isFavorite = favorites.has(deal.uuid);
-      const heartIcon = isFavorite
-        ? `<img width="22" height="22" src="https://img.icons8.com/material/24/hearts--v1.png" alt="hearts--v1" onclick="RemoveFromFavorite('${deal.uuid}')" />`
-        : `<img width="22" height="22" src="https://img.icons8.com/material-outlined/24/hearts.png" alt="hearts" onclick="AddToFavorite('${deal.uuid}')" />`;
+  const template = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width:5%;">Favoris</th>
+          <th style="width:8%;">ID</th>
+          <th>Titre</th>
+          <th style="width:10%;" onclick="SortingPrice()">Prix
+            <span id="price-sort-icon">&#9652; &#9662;</span>
+          </th>
+          <th onclick="SortingDate(${sortDateState})">Date
+            <span id="date-sort-icon">&#9652; &#9662;</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        ${deals
+          .map(deal => {
+            const isFavorite = favorites.has(deal.uuid);
+            const heartIcon = isFavorite
+              ? `<img width="22" height="22" src="https://img.icons8.com/material/24/hearts--v1.png" alt="hearts--v1" onclick="RemoveFromFavorite('${deal.uuid}')" />`
+              : `<img width="22" height="22" src="https://img.icons8.com/material-outlined/24/hearts.png" alt="hearts" onclick="AddToFavorite('${deal.uuid}')"/>`;
 
-      return `
-      <div class="deal" id=${deal.uuid}>
-        ${heartIcon}
-        <span>${deal.id}</span>
-        <a href="${deal.link}" target="_blank">${deal.title}</a>
-        <span>${deal.price}</span>
-      </div>
-    `;
-    })
-    .join('');
+            return `
+              <tr class="deal" id=${deal.uuid}>
+                <td>${heartIcon}</td>
+                <td>${deal.id}</td>
+                <td style="text-align: left;"><a href="${deal.link}" target="_blank">${deal.title}</a></td>
+                <td>${deal.price}</td>
+                <td>${new Date(deal.published * 1000).toLocaleDateString()}</td>
+              </tr>
+            `;
+          })
+          .join('')}
+      </tbody>
+    </table>
+  `;
+
 
   div.innerHTML = template;
   fragment.appendChild(div);
-  sectionDeals.innerHTML = '<h2>Deals</h2>';
+  sectionDeals.innerHTML = '';
   sectionDeals.appendChild(fragment);
 };
 
@@ -158,21 +182,34 @@ const renderVintedSales = sales => {
   
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
-  const template = vintedSales
-    .map(sale => {
-      return `
-      <div class="sale" id=${sale.uuid}>
-        <span>${parseInt(selectLegoSetIds.value)}</span>
-        <a href="${sale.link}" target="_blank">${sale.title}</a>
-        <span>${sale.price}</span>
-      </div>
-    `;
-    })
-    .join('');
+  const template = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width:8%;">ID</th>
+          <th>Titre</th>
+          <th style="width:10%;">Prix</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${vintedSales
+          .map(sale => {
+            return `
+              <tr class="deal" id=${sale.uuid}>
+                <td>${parseInt(selectLegoSetIds.value)}</td>
+                <td style="text-align: left;"><a href="${sale.link}" target="_blank">${sale.title}</a></td>
+                <td>${sale.price}</td>
+              </tr>
+            `;
+          })
+          .join('')}
+      </tbody>
+    </table>
+  `;
 
   div.innerHTML = template;
   fragment.appendChild(div);
-  sectionVinted.innerHTML = '<h2>Vinted Sales</h2>';
+  sectionVinted.innerHTML =  `<h2 style="font-family: 'LegoFont'; font-size: 3rem;">VINTED SALES</h2>`;
   sectionVinted.appendChild(fragment);
 };
 
@@ -292,7 +329,6 @@ selectPage.addEventListener('change', async (event) => {
   if(test > spanNbDeals.textContent){
     page = spanNbDeals.textContent / currentDeals.length;
     page = Math.ceil(page);
-
   }
 
   const deals = await fetchDeals(page, parseInt(selectShow.value));
@@ -311,6 +347,91 @@ document.addEventListener('DOMContentLoaded', async () => {
   setCurrentDeals(deals);
   render(currentDeals, currentPagination);
 });
+
+
+/**
+ * Sort by the value choosen
+ */
+function SortingPrice() {
+  sortDateState = 0;
+
+  switch(sortPriceState) {
+    
+    case 0:
+      currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "inc"));
+      sortPriceState = 1;
+      break;
+
+    case 1:
+      currentDeals = currentDeals.sort((a,b) => SortByPrice(a,b, "dec"));
+      sortPriceState = 2;
+      break;
+
+    default: // reset to default order
+      currentDeals = currentDeals.sort((a, b) => a.rowIndex - b.rowIndex);
+      sortPriceState = 0;
+      break;
+
+  }
+  RemoveAllFilters();
+  render(currentDeals, currentPagination);
+
+  // Appliquer les icônes après le rendu
+  const icon = document.querySelector('#price-sort-icon');
+  if (icon) {
+    if (sortPriceState === 1) {
+      icon.innerHTML = '&#9652;'; // Flèche vers le haut
+    } else if (sortPriceState === 2) {
+      icon.innerHTML = '&#9662;'; // Flèche vers le bas
+    } else {
+      icon.innerHTML = '&#9652; &#9662;'; // Double flèche
+    }
+  }
+};
+
+
+
+/**
+ * Sort by the value choosen
+ */
+function SortingDate(sortValue) {
+  sortPriceState = 0;
+
+  switch(sortValue) {  
+    case 0:
+      currentDeals = currentDeals.sort((a,b) => SortByDate(a,b, "inc"));
+      sortDateState = 1;
+
+      break;
+    case 1:
+        currentDeals = currentDeals.sort((a,b) => SortByDate(a,b, "dec"));
+        sortDateState = 2;
+
+        break;
+
+    default: // reset to default order
+      currentDeals = currentDeals.sort((a, b) => a.rowIndex - b.rowIndex);
+      sortDateState = 0;
+      break;
+    
+  }
+  RemoveAllFilters();
+  render(currentDeals, currentPagination);
+
+  // Appliquer les icônes après le rendu
+  const icon = document.querySelector('#date-sort-icon');
+  if (icon) {
+    if (sortDateState === 1) {
+      icon.innerHTML = '&#9652;'; // Flèche vers le haut
+    } else if (sortDateState === 2) {
+      icon.innerHTML = '&#9662;'; // Flèche vers le bas
+    } else {
+      icon.innerHTML = '&#9652; &#9662;'; // Double flèche
+    }
+  }
+};
+
+
 
 
 /**
@@ -456,11 +577,11 @@ function SortByPrice(a, b, order) {
 function SortByDate(a, b, order) {
   switch (order) {
     case "inc":
-      return new Date(b.published) - new Date(a.published);
+      return new Date(b.published * 1000) - new Date(a.published * 1000);
     case "dec":
-      return new Date(a.published) - new Date(b.published);
+      return new Date(a.published * 1000) - new Date(b.published * 1000);
     default:
-      return new Date(b.published) - new Date(a.published);  // increase by default
+      return new Date(b.published * 1000) - new Date(a.published * 1000);  // increase by default
   }
 }
 
