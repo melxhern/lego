@@ -56,6 +56,10 @@ const discountButton = document.getElementById("discountButton");
 const commentedButton = document.getElementById("commentedButton");
 const hotDealButton = document.getElementById("hotDealButton");
 
+const popupOverlay = document.getElementById('popupOverlay');
+const popup = document.getElementById('popup');
+const closePopup = document.getElementById('closePopup');
+
 
 /**
  * Set global value
@@ -135,10 +139,14 @@ const renderDeals = deals => {
           <th style="width:8%;">ID</th>
           <th>Titre</th>
           <th style="width:10%;" onclick="SortingPrice()">Prix
-            <span id="price-sort-icon">&#9652; &#9662;</span>
+            <span id="price-sort-icon">
+              <img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort.png" alt="sort"/>
+            </span>
           </th>
           <th onclick="SortingDate(${sortDateState})">Date
-            <span id="date-sort-icon">&#9652; &#9662;</span>
+            <span id="date-sort-icon">
+              <img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort.png" alt="sort"/>
+            </span>
           </th>
         </tr>
       </thead>
@@ -153,7 +161,7 @@ const renderDeals = deals => {
             return `
               <tr class="deal" id=${deal.uuid}>
                 <td>${heartIcon}</td>
-                <td>${deal.id}</td>
+                <td onclick="openPopup(${deal.id})">${deal.id}</td>
                 <td style="text-align: left;"><a href="${deal.link}" target="_blank">${deal.title}</a></td>
                 <td>${deal.price}</td>
                 <td>${new Date(deal.published * 1000).toLocaleDateString()}</td>
@@ -177,7 +185,7 @@ const renderDeals = deals => {
  * Render list of deals
  * @param  {Array} sales
  */
-const renderVintedSales = sales => {
+const renderVintedSales = (sales, id) => {
   vintedSales = sales.result;
   
   const fragment = document.createDocumentFragment();
@@ -196,7 +204,7 @@ const renderVintedSales = sales => {
           .map(sale => {
             return `
               <tr class="deal" id=${sale.uuid}>
-                <td>${parseInt(selectLegoSetIds.value)}</td>
+                <td>${id}</td>
                 <td style="text-align: left;"><a href="${sale.link}" target="_blank">${sale.title}</a></td>
                 <td>${sale.price}</td>
               </tr>
@@ -296,27 +304,27 @@ selectShow.addEventListener('change', async (event) => {
 });
 
 
-/**
- * Select the number of deals to display
- */
-selectLegoSetIds.addEventListener('change', async() => {
-  let selectedLegoId = selectLegoSetIds.value;
+// /**
+//  * Select the number of deals to display
+//  */
+// selectLegoSetIds.addEventListener('change', async() => {
+//   let selectedLegoId = selectLegoSetIds.value;
 
-  sectionVinted.innerHTML = '';
+//   sectionVinted.innerHTML = '';
   
-  // Vérifiez si une option valide est sélectionnée
-  if (selectedLegoId) {
-    try {
-      // Appeler fetchVintedFromId avec la valeur sélectionnée
-      const sales = await fetchVintedFromId(selectedLegoId);
-      renderVintedSales(sales); // Appelle la fonction pour rendre les ventes
-      renderIndicators(currentPagination);
-    } catch (error) {
-      console.error("Error fetching sales data:", error);
-    }
-  }
-
-});
+//   // Vérifiez si une option valide est sélectionnée
+//   if (selectedLegoId) {
+//     try {
+//       // openPopup();
+//       // Appeler fetchVintedFromId avec la valeur sélectionnée
+//       const sales = await fetchVintedFromId(selectedLegoId);
+//       renderVintedSales(sales); // Appelle la fonction pour rendre les ventes
+//       renderIndicators(currentPagination);
+//     } catch (error) {
+//       console.error("Error fetching sales data:", error);
+//     }
+//   }
+// });
 
 
 /**
@@ -380,11 +388,11 @@ function SortingPrice() {
   const icon = document.querySelector('#price-sort-icon');
   if (icon) {
     if (sortPriceState === 1) {
-      icon.innerHTML = '&#9652;'; // Flèche vers le haut
+      icon.innerHTML = '<img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort-up.png" alt="sort-up"/>'; // Flèche vers le haut
     } else if (sortPriceState === 2) {
-      icon.innerHTML = '&#9662;'; // Flèche vers le bas
+      icon.innerHTML = '<img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort-down.png" alt="sort-down"/>'; // Flèche vers le bas
     } else {
-      icon.innerHTML = '&#9652; &#9662;'; // Double flèche
+      icon.innerHTML = '<img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort.png" alt="sort"/>'; // Double flèche
     }
   }
 };
@@ -396,6 +404,7 @@ function SortingPrice() {
  */
 function SortingDate(sortValue) {
   sortPriceState = 0;
+  //currentDeals = currentDeals.sort((a, b) => a.rowIndex - b.rowIndex);
 
   switch(sortValue) {  
     case 0:
@@ -422,11 +431,11 @@ function SortingDate(sortValue) {
   const icon = document.querySelector('#date-sort-icon');
   if (icon) {
     if (sortDateState === 1) {
-      icon.innerHTML = '&#9652;'; // Flèche vers le haut
+      icon.innerHTML = '<img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort-up.png" alt="sort-up"/>'; // Flèche vers le haut
     } else if (sortDateState === 2) {
-      icon.innerHTML = '&#9662;'; // Flèche vers le bas
+      icon.innerHTML = '<img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort-down.png" alt="sort-down"/>'; // Flèche vers le bas
     } else {
-      icon.innerHTML = '&#9652; &#9662;'; // Double flèche
+      icon.innerHTML = '<img width="12" height="12" src="https://img.icons8.com/ios-filled/50/sort.png" alt="sort"/>'; // Double flèche
     }
   }
 };
@@ -638,3 +647,41 @@ function RemoveFromFavorite(uuid){
   console.log(favorites);
   renderDeals(currentDeals);
 }
+
+
+
+async function openPopup(id) {
+  // let selectedLegoId = selectLegoSetIds.value;
+
+  sectionVinted.innerHTML = '';
+  
+  // Vérifiez si une option valide est sélectionnée
+  if (id) {
+    try {
+      // openPopup();
+      // Appeler fetchVintedFromId avec la valeur sélectionnée
+      const sales = await fetchVintedFromId(id);
+      renderVintedSales(sales, id); // Appelle la fonction pour rendre les ventes
+      renderIndicators(currentPagination);
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+    }
+  }
+
+
+  popupOverlay.style.display = 'block';
+}
+
+closePopup.addEventListener('click', closePopupFunc);
+
+function closePopupFunc() {
+  popupOverlay.style.display = 'none';
+}
+
+popupOverlay.addEventListener('click', function (event) {
+  if (event.target === popupOverlay) {
+    closePopupFunc();
+  }
+});
+
+
