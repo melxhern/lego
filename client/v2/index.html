@@ -3,138 +3,75 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>🧱 Lego | Predictability of a lego set deal</title>
-    <style>
-      @font-face {
-        font-family: 'LegoFont'; /* Premier fichier de police */
-        src: url('fonts/lego.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-      }
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
+      rel="stylesheet">
 
-      @font-face {
-        font-family: 'LegoThick'; /* Deuxième fichier de police */
-        src: url('fonts/legothick.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-      }
-
-
-      table {
-          /* margin: 0 auto; */
-          width: 100%;
-          border-collapse: collapse;
-      }
-
-      th, td {
-          border: 1px solid #ccc; /* Bordure pour les cellules */
-          padding: 8px; /* Espacement à l'intérieur des cellules */
-          text-align: center; /* Alignement du texte à gauche */
-      }
-      th {
-          background-color: #ffd90088; 
-      }
-
-      .popup-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        /* z-index: 999; */
-      }
-
-      .popup {
-        /* font-family: Arial, sans-serif; */
-        position: fixed;
-        top: 0;
-        left: 50%;
-        width: 90vw;
-        height: 90vh;
-        transform: translateX(-50%);
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        overflow-y: auto;
-      }
-
-      .popup .close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
-        cursor: pointer;
-        color: #333;
-      }
-
-  </style>
   </head>
-  <body>
+  <body style="background-color: #E4E5EC;">
+    <div id="image"
+      style="background-color: #da291c; width: 100%; text-align: center;">
+      <img src="logo.png" alt="logo" width="auto" height="100rem">
+    </div>
+
     <div id="whole-page" style="width: 85%; margin: 0 auto;">
-      <div id="image" style="background-color: #da291c; width: 100%; text-align: center;">
-        <img src="logo.png" alt="logo" width="auto" height="150rem">
+
+      <div class="header">
+        <button id="dealsButton" class="header-button active"
+          onclick="showCategory('deals')">Deals</button>
+        <button id="favoritesButton" class="header-button"
+          onclick="showCategory('favorites')">Favorites</button>
       </div>
-    
-      <section id="lego">
-        <h2 style="font-family: 'LegoFont'; font-size: 3rem;">LEGO SETS</h2>
-        <div>
-          <label>Lego set id:</label>
-          <select id="lego-set-id-select"></select> 
-        </div>
-      </section>
+
       <div>
         <span>Number of deals :</span>
         <span id="nbDeals">0</span>
       </div>
 
-      
+      <section id="options" style="margin-bottom: 1rem;">
+        <div id="filters">
+          <button id="discountButton" onclick="onClickBestDiscount() "
+            class="filter-button">By best
+            discount</span>
+          <button id="commentedButton" onclick="onClickMostCommented()"
+            class="filter-button">By most
+            commented</span>
+          <button id="hotDealButton" onclick="onClickHotDeals()"
+            class="filter-button">By hot
+            deals</span>
+        </div>
 
-      
-
-      <h2 style="font-family: 'LegoFont'; font-size: 3rem;">DEALS</h2>
-        <section id="options" style="margin-bottom: 1rem;">      
-          <div id="filters">
-            <button id="discountButton" onclick="onClickBestDiscount()" style="margin-right: 10px;">By best discount</span>
-            <button id="commentedButton" onclick="onClickMostCommented()" style="margin-right: 10px;">By most commented</span>
-            <button id="hotDealButton" onclick="onClickHotDeals()" >By hot deals</span>
-          </div>
-          <div id="sort">
-            <label for="sort-select">Sort:</label>
-            <select name="sort" id="sort-select">
-              <option value="price-asc">Cheaper</option>
-              <option value="price-desc">Expensive</option>
-              <option value="date-asc">Recently published</option>
-              <option value="date-desc">Anciently published</option>
-            </select>
-          </div>
-        </section>
+      </section>
 
       <section id="deals"></section>
-      <div style="justify-content: center; margin-top: 1rem; display: flex; ">
-        <div id="page">
-          <label for="page-select">Go to page:</label>
-          <select name="page" id="page-select"></select>
+      <section id="favorites"></section>
+
+      <div class="pagination-container">
+        <div class="pagination">
+          <label for="page-select" class="page-label">Page:</label>
+          <select name="page" id="page-select" class="page-select"></select>
         </div>
-        <div id="show" style="margin-left: 1rem;">
-          <label for="show-select">Show:</label>
-          <select name="show" id="show-select">
+        <div class="show-options">
+          <label for="show-select" class="show-label">Show:</label>
+          <select name="show" id="show-select" class="show-select">
             <option value="6">6</option>
             <option value="12">12</option>
             <option value="24">24</option>
           </select>
         </div>
       </div>
-      
 
       <div class="popup-overlay" id="popupOverlay">
         <div class="popup" id="popup">
           <span class="close" id="closePopup">&times;</span>
           <div class="popup-content">
+            <section id="deal-info"></section>
+
             <section id="indicators">
-              <h2 style="font-family: 'LegoFont'; font-size: 3rem;">INDICATORS</h2>
-              
+              <h2
+                style="font-family: 'LegoFont'; font-size: 3rem;">INDICATORS</h2>
+
               <div>
                 <span>Number of sales :</span>
                 <span id="nbSales">0</span>
@@ -170,7 +107,7 @@
       </div>
 
     </div>
-    
+
     <script type="text/javascript" charset="UTF-8" src="utils.js"></script>
     <script type="text/javascript" charset="UTF-8" src="portfolio.js"></script>
   </body>
