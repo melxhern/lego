@@ -1,32 +1,27 @@
-const fetch = require('node-fetch');
-const cheerio = require('cheerio');
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const cheerio = require("cheerio");
 
 /**
  * Parse webpage data response
  * @param  {String} data - html response
  * @return {Object} deal
  */
-const parse = data => {
-  const $ = cheerio.load(data, {'xmlMode': true});
+const parse = (data) => {
+  const $ = cheerio.load(data, { xmlMode: true });
 
-  return $('div.prods a')
+  return $("div.prods a")
     .map((i, element) => {
-      const price = parseFloat(
-        $(element)
-          .find('span.prodl-prix span')
-          .text()
-      );
+      const price = parseFloat($(element).find("span.prodl-prix span").text());
 
-      const discount = Math.abs(parseInt(
-        $(element)
-          .find('span.prodl-reduc')
-          .text()
-      ));
+      const discount = Math.abs(
+        parseInt($(element).find("span.prodl-reduc").text())
+      );
 
       return {
         discount,
         price,
-        'title': $(element).attr('title'),
+        title: $(element).attr("title"),
       };
     })
     .get();
@@ -35,9 +30,9 @@ const parse = data => {
 /**
  * Scrape a given url page
  * @param {String} url - url to parse
- * @returns 
+ * @returns
  */
-module.exports.scrape = async url => {
+module.exports.scrape = async (url) => {
   const response = await fetch(url);
 
   if (response.ok) {
