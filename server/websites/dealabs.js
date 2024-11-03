@@ -67,7 +67,7 @@ module.exports.scrape = async (url) => {
     const response = await fetch(url, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
       },
     });
 
@@ -77,11 +77,11 @@ module.exports.scrape = async (url) => {
 
       // Enregistrer les données dans un fichier JSON
       fs.writeFileSync(
-        "deals.json",
+        "deals/deals-dealabs.json",
         JSON.stringify(jsonData, null, 2),
         "utf-8"
       );
-      console.log("Données stockées dans threads.json");
+      console.log("Données stockées dans deals-dealabs.json\n");
 
       return jsonData;
     } else {

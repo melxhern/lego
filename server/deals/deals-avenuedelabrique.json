@@ -1,0 +1,102 @@
+[
+  {
+    "discount": 55,
+    "price": 8.99,
+    "title": "Livres Visual Dictionary – Updated Edition"
+  },
+  {
+    "discount": 38,
+    "price": 24.99,
+    "title": "LEGO Harry Potter 76431 - Le château de Poudlard : le cours de potions"
+  },
+  {
+    "discount": 37,
+    "price": 16.9,
+    "title": "LEGO Friends 42637 - Calendrier de l’Avent LEGO Friends 2024"
+  },
+  {
+    "discount": 36,
+    "price": 69.9,
+    "title": "LEGO Star Wars 75393 - TIE Fighter et X-Wing à combiner"
+  },
+  {
+    "discount": 35,
+    "price": 22.9,
+    "title": "LEGO Minecraft 21261 - La forteresse du loup"
+  },
+  {
+    "discount": 35,
+    "price": 19.49,
+    "title": "LEGO City 60407 - Le bus rouge à deux étages"
+  },
+  {
+    "discount": 35,
+    "price": 19.49,
+    "title": "LEGO City 60426 - Le camion tout-terrain de l’explorateur de la jungle"
+  },
+  {
+    "discount": 35,
+    "price": 19.49,
+    "title": "LEGO Friends 42618 - Le café de Heartlake City"
+  },
+  {
+    "discount": 35,
+    "price": 14.99,
+    "title": "LEGO City 60425 - L’hydravion de l’explorateur de la jungle"
+  },
+  {
+    "discount": 35,
+    "price": 9.69,
+    "title": "LEGO Friends 42622 - Le stand de tir à l'arc de la base de loisirs"
+  },
+  {
+    "discount": 35,
+    "price": 6.49,
+    "title": "LEGO City 60424 - Le tout-terrain de l’explorateur de la jungle et le panda roux"
+  },
+  {
+    "discount": 35,
+    "price": 6.49,
+    "title": "LEGO Ninjago 71816 - La moto de glace de Zane"
+  },
+  {
+    "discount": 35,
+    "price": 6.49,
+    "title": "LEGO Friends 42623 - Le jet-ski de la plage"
+  },
+  {
+    "discount": 35,
+    "price": 6.49,
+    "title": "LEGO Friends 42635 - La voiture de toilettage canin"
+  },
+  {
+    "discount": 34,
+    "price": 29.9,
+    "title": "LEGO Dreamzzz 71483 - Les créatures de la Sorcière des cauchemars"
+  },
+  {
+    "discount": 34,
+    "price": 24.89,
+    "title": "LEGO Animal Crossing 77051 - Voyage aérien avec Dodo Airlines"
+  },
+  {
+    "discount": 34,
+    "price": 23.19,
+    "title": "LEGO Star Wars 75395 - Calendrier de l’Avent LEGO Star Wars 2024"
+  },
+  {
+    "discount": 34,
+    "price": 23.19,
+    "title": "LEGO Marvel 76293 - Calendrier de l’Avent LEGO Marvel 2024 Spider-Man"
+  },
+  {
+    "discount": 34,
+    "price": 19.79,
+    "title": "LEGO Duplo 10432 - Le voyage en bateau de Peppa Pig"
+  },
+  {
+    "discount": 34,
+    "price": 19.79,
+    "title": "LEGO Star Wars 75378 - L’évasion en Speeder BARC"
+  }
+]

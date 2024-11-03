@@ -1,6 +1,7 @@
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const cheerio = require("cheerio");
+const fs = require("fs");
 
 /**
  * Parse webpage data response
@@ -10,7 +11,7 @@ const cheerio = require("cheerio");
 const parse = (data) => {
   const $ = cheerio.load(data, { xmlMode: true });
 
-  return $("div.prods a")
+  const results = $("div.prods a")
     .map((i, element) => {
       const price = parseFloat($(element).find("span.prodl-prix span").text());
 
@@ -25,6 +26,8 @@ const parse = (data) => {
       };
     })
     .get();
+
+  return results;
 };
 
 /**
@@ -37,11 +40,21 @@ module.exports.scrape = async (url) => {
 
   if (response.ok) {
     const body = await response.text();
+    const jsonData = await parse(body);
 
-    return parse(body);
+    // Enregistrer les données dans un fichier JSON
+    fs.writeFileSync(
+      "deals/deals-avenuedelabrique.json",
+      JSON.stringify(jsonData, null, 2),
+      "utf-8"
+    );
+    console.log("Données stockées dans deals-avenuedelabrique.json\n");
+
+    return jsonData;
+  } else {
+    console.error(
+      `Erreur de réponse : statut ${response.status} - ${response.statusText}`
+    );
   }
-
-  console.error(response);
-
   return null;
 };
