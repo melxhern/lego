@@ -18,7 +18,7 @@ async function sandbox(website, id = null) {
     console.log(`🕵️‍♀️  browsing ${website} website`);
 
     if (id != null) {
-      website = `https://www.vinted.fr/api/v2/catalog/items?page=1&per_page=96&search_text=${id}`;
+      website = `https://www.vinted.fr/api/v2/catalog/items?page=1&per_page=96&search_text=${id}&status_ids[]=6,1&brand_ids[]=89162`;
       // website = `https://www.vinted.fr/catalog?search_text=${id}`;
     }
 
@@ -30,7 +30,7 @@ async function sandbox(website, id = null) {
       case "https://www.avenuedelabrique.com/nouveautes-lego":
         deals = await avenuedelabrique.scrape(website);
         break;
-      case `https://www.vinted.fr/api/v2/catalog/items?page=1&per_page=96&search_text=${id}`:
+      case `https://www.vinted.fr/api/v2/catalog/items?page=1&per_page=96&search_text=${id}&status_ids[]=6,1&brand_ids[]=89162`:
         deals = await vinted.scrape(website, id);
         break;
       default:

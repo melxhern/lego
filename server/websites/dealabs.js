@@ -27,6 +27,7 @@ const parse = async (data) => {
         published = jsonData.props.thread.publishedAt;
         price = jsonData.props.thread.price;
         retail = jsonData.props.thread.nextBestPrice;
+        // recup uuid et id !!!!
       }
 
       const imageContainer = $(element)

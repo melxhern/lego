@@ -41,7 +41,7 @@ module.exports.scrape = async (url, id) => {
         Accept: "application/json, text/plain, */*",
         "Accept-Language": "fr",
         Connection: "keep-alive",
-        Referer: `https://www.vinted.fr/catalog?search_text=${id}`,
+        Referer: `https://www.vinted.fr/catalog?search_text=${id}&status_ids[]=6,1&brand_ids[]=89162`,
         "X-Csrf-Token": csrfToken,
         Cookie: cookies,
       },
