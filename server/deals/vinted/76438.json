@@ -1,0 +1,74 @@
+[
+  {
+    "uuid": "e988258e-8348-4fb5-b1d7-3583a9ad0be5",
+    "legoId": "76438",
+    "title": "Lego Harry Potter 76438",
+    "price": {
+      "amount": "31.15",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5407554356-lego-harry-potter-76438",
+    "favorites": 2,
+    "image": "https://images1.vinted.net/t/01_00f6e_GBQHYjup7qYE4qV9KpVUKFGj/f800/1732004268.jpeg?s=7440b9abb0cd55eead7d25031e523036ed9dd1da"
+  },
+  {
+    "uuid": "d5b0f22e-9a52-4e70-a2c5-9444823f2416",
+    "legoId": "76438",
+    "title": "Lego minifigure Harry Potter with Gryffindor crest tile",
+    "price": {
+      "amount": "7.0",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5034795080-lego-minifigure-harry-potter-with-gryffindor-crest-tile",
+    "favorites": 2,
+    "image": "https://images1.vinted.net/t/03_00cb5_mAakAd6U8XB51GFouRM1cmrJ/f800/1726222945.jpeg?s=1f0076ee50291e3916646dcdb96629864670502d"
+  },
+  {
+    "uuid": "c3ef9eaa-b3e6-41ae-a410-8c600c4415fe",
+    "legoId": "76438",
+    "title": "Lego minifigure Susan Bones with Hufflepuff crest Tile",
+    "price": {
+      "amount": "4.9",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5034785793-lego-minifigure-susan-bones-with-hufflepuff-crest-tile",
+    "favorites": 4,
+    "image": "https://images1.vinted.net/t/02_0058e_aSitU7yRv2ZVTsrD8bCbiefa/f800/1726222850.jpeg?s=d141e66b25507693cdee10fea22f5a5d39dec417"
+  },
+  {
+    "uuid": "8318b3e5-67ec-4256-a426-13030b448708",
+    "legoId": "76438",
+    "title": "Lego Minifigure Albus Dumbledore",
+    "price": {
+      "amount": "7.0",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5034815676-lego-minifigure-albus-dumbledore",
+    "favorites": 5,
+    "image": "https://images1.vinted.net/t/01_00644_hFfkBKCvw955pHxxZHRdHZN6/f800/1726223157.jpeg?s=b545c00ccfa8f2de1be80c5ed9c2e020dd8d3184"
+  },
+  {
+    "uuid": "057fdf2e-894f-491c-988d-189a35056d83",
+    "legoId": "76438",
+    "title": "Lego Draco Malfoy with Slytherin crest tile",
+    "price": {
+      "amount": "4.9",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5034774023-lego-draco-malfoy-with-slytherin-crest-tile",
+    "favorites": 4,
+    "image": "https://images1.vinted.net/t/03_0048b_gPkDehgTpzrzqeLvQZAFmcLm/f800/1726222729.jpeg?s=8dca7f03b7e8b0a84e1def0ef525f704dfd8241b"
+  },
+  {
+    "uuid": "54e2abef-416a-49f2-831b-a2ae31304f9c",
+    "legoId": "76438",
+    "title": "Lego Avvento Harry Potter 76438",
+    "price": {
+      "amount": "42.7",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5374078274-lego-avvento-harry-potter-76438",
+    "favorites": 3,
+    "image": "https://images1.vinted.net/t/04_0032e_RYAHuJiMZL6Zy6bcdwMmx1d1/f800/1731446280.jpeg?s=005ce827d78497d1fc7946a2f70722ee24646348"
+  }
+]

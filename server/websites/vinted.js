@@ -1,6 +1,6 @@
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 /**
  * Parse webpage data response
@@ -8,9 +8,8 @@ const fs = require("fs");
  * @return {Object} deal
  */
 const parse = async (data, id) => {
-  console.log("ici ");
-
   const results = data.items.map((item) => ({
+    uuid: uuidv4(),
     legoId: id,
     title: item.title,
     price: item.total_item_price,
@@ -29,10 +28,6 @@ const parse = async (data, id) => {
  */
 module.exports.scrape = async (url, id) => {
   try {
-    console.log(
-      "url ------> ",
-      `https://www.vinted.fr/catalog?search_text=${id}`
-    );
     const { csrfToken, cookies } = await extractCsrfTokenAndCookies();
     const response = await fetch(url, {
       headers: {
@@ -52,12 +47,12 @@ module.exports.scrape = async (url, id) => {
       const jsonData = await parse(data, id);
 
       // Enregistrer les données dans un fichier JSON
-      fs.writeFileSync(
-        "deals/deals-vinted.json",
-        JSON.stringify(jsonData, null, 2),
-        "utf-8"
-      );
-      console.log("Données stockées dans deals-vinted.json\n");
+      // fs.writeFileSync(
+      //   "deals/deals-vinted.json",
+      //   JSON.stringify(jsonData, null, 2),
+      //   "utf-8"
+      // );
+      // console.log("Données stockées dans deals-vinted.json\n");
 
       return jsonData;
     } else {

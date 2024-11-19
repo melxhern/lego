@@ -1,0 +1,26 @@
+[
+  {
+    "uuid": "03995fa3-4490-4881-af55-0acddc350810",
+    "legoId": "31213",
+    "title": "LEGO Gioconda 31213 nuovo",
+    "price": {
+      "amount": "89.95",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5374736346-lego-gioconda-31213-nuovo",
+    "favorites": 14,
+    "image": "https://images1.vinted.net/t/02_01cc8_SoSTEWNScSgcPguHt23LoVTg/f800/1731485382.jpeg?s=cdcdf0412e8e7434b03d61def55f84ea5ec3518c"
+  },
+  {
+    "uuid": "8ffa6410-b943-4dc2-b642-60fd62c90d39",
+    "legoId": "31213",
+    "title": "Lego Mona lisa 31213 New",
+    "price": {
+      "amount": "89.95",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5361557917-lego-mona-lisa-31213-new",
+    "favorites": 10,
+    "image": "https://images1.vinted.net/t/04_00264_LXMUg4PEWY4Dhx2CVmKRjM5z/f800/1731264745.jpeg?s=aa623728df5b9d2e953412eb8bd7a056ce1117c0"
+  }
+]

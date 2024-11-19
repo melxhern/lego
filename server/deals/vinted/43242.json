@@ -1,0 +1,38 @@
+[
+  {
+    "uuid": "0b09e13f-16a7-4136-9ce8-d3a0fb765c6d",
+    "legoId": "43242",
+    "title": "LEGO 43242 Disney Il cottage di biancaneve NUOVO",
+    "price": {
+      "amount": "200.19",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5379875245-lego-43242-disney-il-cottage-di-biancaneve-nuovo",
+    "favorites": 30,
+    "image": "https://images1.vinted.net/t/04_0167b_cYsh8r5q1CucTaC7nzNcQtMh/f800/1731572142.jpeg?s=108b060a84008a1109c463609e91f8bc402d069c"
+  },
+  {
+    "uuid": "785d459f-476a-434f-b25f-9b71a4bffce7",
+    "legoId": "43242",
+    "title": "Lego 43242 Biancaneve e i sette nani",
+    "price": {
+      "amount": "205.45",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/5058862756-lego-43242-biancaneve-e-i-sette-nani",
+    "favorites": 49,
+    "image": "https://images1.vinted.net/t/03_01e8e_1CUKtF5jjEdhCtNjTRKq7yPa/f800/1726556931.jpeg?s=a0ddf7c24250d0c7c3e60ff16ea2ea8e69dbbdb8"
+  },
+  {
+    "uuid": "e928dddc-deb0-425a-b522-75f2f541d8cb",
+    "legoId": "43242",
+    "title": "Lego 43242",
+    "price": {
+      "amount": "200.2",
+      "currency_code": "EUR"
+    },
+    "link": "https://www.vinted.fr/items/4737866100-lego-43242",
+    "favorites": 52,
+    "image": "https://images1.vinted.net/t/02_01621_mxHk79tc1wftpzkYvF3kRXQz/f800/1720420889.jpeg?s=5cd841017427eebfc4a4b2b99c272b53fde518e0"
+  }
+]

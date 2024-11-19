@@ -1,8 +1,9 @@
+const { v4: uuidv4 } = require("uuid");
+
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 //const fetch = import("node-fetch");
 const cheerio = require("cheerio");
-const fs = require("fs");
 
 /**
  * Parse webpage data response
@@ -40,9 +41,15 @@ const parse = async (data) => {
         const jsonData = JSON.parse(imageContainer);
         image = jsonData.props.threadImageUrl;
       }
+      const uuid = uuidv4();
+
+      const match = title.match(/\b\d{5}\b/); // Cherche une suite de chiffres isolés
+      const id = match ? match[0] : null;
 
       return {
+        uuid,
         title,
+        id,
         link,
         comments,
         temperature,
@@ -69,21 +76,14 @@ module.exports.scrape = async (url) => {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
       },
     });
 
     if (response.ok) {
       const body = await response.text();
       const jsonData = await parse(body); // Ajouter 'await' ici pour attendre le résultat
-
-      // Enregistrer les données dans un fichier JSON
-      fs.writeFileSync(
-        "deals/deals-dealabs.json",
-        JSON.stringify(jsonData, null, 2),
-        "utf-8"
-      );
-      console.log("Données stockées dans deals-dealabs.json\n");
-
       return jsonData;
     } else {
       console.error(
