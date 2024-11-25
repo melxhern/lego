@@ -8,7 +8,7 @@ const mongo = require("./mongo");
 async function sandbox() {
   let website;
   try {
-    console.log(`🕵️‍♀️  browsing ${website} website`);
+    console.log(`🕵️‍♀️  browsing DEALABS`);
     let deals = [];
     let page = 1;
     let hasMorePage = true;
@@ -23,44 +23,41 @@ async function sandbox() {
       } else hasMorePage = false;
     }
     const dealIds = new Set(
-      deals.map((deal) => deal.id).filter((id) => id !== null)
+      deals.map((deal) => deal.legoId).filter((legoId) => legoId !== null)
     );
 
     fs.writeFileSync(
-      "deals/dealabs.json",
+      "deals/deals.json",
       JSON.stringify(deals, null, 2),
       "utf-8"
     );
-    let mongoDeals = await mongo.run(deals, "dealabs");
+    let mongoDeals = await mongo.run(deals, "deals");
 
+    let sales = [];
     let nb = 1;
+
     for (const id of dealIds) {
       page = 1;
       hasMorePage = true;
-      deals = [];
+      console.log(`-------- nb : ${nb} --------`);
       while (hasMorePage) {
         website = `https://www.vinted.fr/api/v2/catalog/items?page=${page}&per_page=96&search_text=${id}&status_ids[]=6,1&brand_ids[]=89162`;
         console.log(`📝  scrapping ${website} `);
         temp = await vinted.scrape(website, id);
 
         if (temp !== null && temp.length !== 0) {
-          deals = deals.concat(temp);
+          sales = sales.concat(temp);
           page++;
         } else hasMorePage = false;
       }
 
-      console.log(`-------- nb : ${nb} --------`);
       fs.writeFileSync(
-        `deals/vinted/${id}.json`,
-        JSON.stringify(deals, null, 2),
+        `deals/sales.json`,
+        JSON.stringify(sales, null, 2),
         "utf-8"
       );
 
-      if (deals.length !== 0) {
-        mongoDeals = await mongo.run(deals, id);
-      } else {
-        console.log("deals est vide");
-      }
+      mongoDeals = await mongo.run(sales, "sales");
 
       nb++;
     }

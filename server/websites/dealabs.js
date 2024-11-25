@@ -1,9 +1,8 @@
-const { v4: uuidv4 } = require("uuid");
-
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 //const fetch = import("node-fetch");
 const cheerio = require("cheerio");
+const { json } = require("express");
 
 /**
  * Parse webpage data response
@@ -21,6 +20,7 @@ const parse = async (data) => {
 
       if (container) {
         const jsonData = JSON.parse(container);
+        id = jsonData.props.thread.threadId;
         comments = jsonData.props.thread.commentCount;
         link = jsonData.props.thread.link;
         title = jsonData.props.thread.title;
@@ -41,21 +41,23 @@ const parse = async (data) => {
         const jsonData = JSON.parse(imageContainer);
         image = jsonData.props.threadImageUrl;
       }
-      const uuid = uuidv4();
 
       const match = title.match(/\b\d{5}\b/); // Cherche une suite de chiffres isolés
-      const id = match ? match[0] : null;
+      const legoId = match ? match[0] : null;
+
+      const discount = Math.ceil(((retail - price) / retail) * 100);
 
       return {
-        uuid,
-        title,
         id,
+        title,
+        legoId,
         link,
         comments,
         temperature,
         published,
         price,
         retail,
+        discount,
         image,
       };
     })

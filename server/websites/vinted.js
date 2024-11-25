@@ -1,18 +1,17 @@
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const { v4: uuidv4 } = require("uuid");
 
 /**
  * Parse webpage data response
  * @param  {String} data - html response
  * @return {Object} deal
  */
-const parse = async (data, id) => {
+const parse = async (data, legoId) => {
   const results = data.items.map((item) => ({
-    uuid: uuidv4(),
-    legoId: id,
+    id: item.id,
+    legoId: legoId,
     title: item.title,
-    price: item.total_item_price,
+    price: item.total_item_price.amount,
     link: item.url,
     favorites: item.favourite_count,
     image: item.photo ? item.photo.url : null,
@@ -45,14 +44,6 @@ module.exports.scrape = async (url, id) => {
     if (response.ok) {
       const data = await response.json();
       const jsonData = await parse(data, id);
-
-      // Enregistrer les données dans un fichier JSON
-      // fs.writeFileSync(
-      //   "deals/deals-vinted.json",
-      //   JSON.stringify(jsonData, null, 2),
-      //   "utf-8"
-      // );
-      // console.log("Données stockées dans deals-vinted.json\n");
 
       return jsonData;
     } else {
