@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri =
   "mongodb+srv://melaniehernandez:Ng8bFseszAgwY16K@clusterlego.lbsz0.mongodb.net/?retryWrites=true&w=majority&appName=ClusterLego";
 const MONGODB_DB_NAME = "lego";
@@ -39,7 +39,7 @@ module.exports.run = async (deals, name) => {
   }
 };
 
-async function mostCommented() {
+module.exports.mostCommented = async () => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
@@ -48,14 +48,14 @@ async function mostCommented() {
 
     const comments = await collection.find({ comments: { $gt: 15 } }).toArray();
 
-    console.log(comments);
+    return comments;
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
-}
+};
 
-async function bestDiscounts() {
+module.exports.bestDiscounts = async () => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
@@ -64,14 +64,14 @@ async function bestDiscounts() {
 
     const discount = await collection.find({ discount: { $gt: 50 } }).toArray();
 
-    console.log(discount);
+    return discount;
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
-}
+};
 
-async function hotDeals() {
+module.exports.hotDeals = async () => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
@@ -82,14 +82,14 @@ async function hotDeals() {
       .find({ temperature: { $gt: 100 } })
       .toArray();
 
-    console.log(legos);
+    return legos;
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
-}
+};
 
-async function sortByPrice() {
+module.exports.sortByPrice = async () => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
@@ -100,14 +100,14 @@ async function sortByPrice() {
 
     const sorted = await collection.find().sort(sortAsc).toArray();
 
-    console.log(sorted);
+    return sorted;
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
-}
+};
 
-async function sortByDate() {
+module.exports.sortByDate = async () => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
@@ -123,9 +123,27 @@ async function sortByDate() {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
-}
+};
 
-async function findByLegoId(id) {
+module.exports.findDealById = async (id) => {
+  try {
+    await client.connect();
+    const db = client.db(MONGODB_DB_NAME);
+
+    const collection = db.collection("deals");
+
+    var o_id = new ObjectId(id);
+
+    const legos = await collection.find({ _id: o_id }).toArray();
+
+    return legos;
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+};
+
+module.exports.findSaleByLegoId = async (id) => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
@@ -134,21 +152,90 @@ async function findByLegoId(id) {
 
     const legos = await collection.find({ legoId: id }).toArray();
 
-    console.log(legos);
+    return legos;
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
   }
-}
+};
 
 //mostCommented().catch(console.dir);
 
-//bestDiscounts().catch(console.dir);
+module.exports.searchDeals = async ({
+  filterBy,
+  sortBy,
+  order = -1,
+  limit = 20,
+  page = 1,
+}) => {
+  try {
+    await client.connect();
+    const db = client.db(MONGODB_DB_NAME);
+    const collection = db.collection("deals");
 
-//hotDeals().catch(console.dir);
+    // Étape 1 : Construire le pipeline
+    const pipeline = [];
 
-//sortByPrice().catch(console.dir);
+    // 1. Filtrage
+    switch (filterBy) {
+      case "most-commented":
+        pipeline.push({ comments: { $gt: 15 } });
+        break;
+      case "best-discount":
+        pipeline.push({ discount: { $gt: 50 } });
+        break;
+      case "hot-deals":
+        pipeline.push({ temperature: { $gt: 100 } });
+        break;
+    }
 
-//sortByDate().catch(console.dir);
+    // 2. Tri par prix ou date
+    if (sortBy === "price") {
+      pipeline.push({
+        $sort: { price: order },
+      });
+    } else if (sortBy === "date") {
+      pipeline.push({
+        $sort: { published: order },
+      });
+    }
 
-//findByLegoId("75378").catch(console.dir);
+    // 3. Pagination (skip et limit)
+    const skip = (page - 1) * limit;
+    pipeline.push({ $skip: skip }, { $limit: limit });
+
+    // Étape 2 : Exécuter le pipeline
+    const results = await collection.aggregate(pipeline).toArray();
+
+    return results;
+  } finally {
+    await client.close();
+  }
+};
+
+module.exports.searchSales = async ({ id = "", limit = 20, page = 1 }) => {
+  try {
+    await client.connect();
+    const db = client.db(MONGODB_DB_NAME);
+    const collection = db.collection("deals");
+
+    const pipeline = [];
+
+    if (id) {
+      pipeline.push({ $match: { legoId: id } });
+    }
+
+    pipeline.push({
+      $sort: { published: -1 },
+    });
+
+    const skip = (page - 1) * limit;
+    pipeline.push({ $skip: skip }, { $limit: limit });
+
+    const results = await collection.aggregate(pipeline).toArray();
+
+    return results;
+  } finally {
+    await client.close();
+  }
+};
