@@ -1,6 +1,6 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-const uri =
-  "mongodb+srv://melaniehernandez:Ng8bFseszAgwY16K@clusterlego.lbsz0.mongodb.net/?retryWrites=true&w=majority&appName=ClusterLego";
+require("dotenv").config();
+const uri = `mongodb+srv://melaniehernandez:${process.env.SECRET_KEY}@clusterlego.lbsz0.mongodb.net/?retryWrites=true&w=majority&appName=ClusterLego`;
 const MONGODB_DB_NAME = "lego";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
