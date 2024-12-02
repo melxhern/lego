@@ -23,13 +23,24 @@ app.get("/deals/search", async (request, response) => {
   try {
     const limit = parseInt(request.query.limit) || 20; // Limite par défaut : 20
     const page = parseInt(request.query.page) || 1;
-    const sortBy = request.query.price || null;
+    const sortBy = request.query.sortBy || null;
     const order = parseInt(request.query.order) || -1;
     const filterBy = request.query.filterBy || null;
 
-    const deals = await mongo.searchDeals(filterBy, sortBy, order, limit, page);
+    const { total, results } = await mongo.searchDeals({
+      filterBy,
+      sortBy,
+      order,
+      limit,
+      page,
+    });
 
-    response.send({ result: deals });
+    response.send({
+      total, // Nombre total de résultats correspondant aux filtres
+      page, // Page actuelle
+      limit, // Limite par page
+      results, // Résultats de la page actuelle
+    });
   } catch (error) {
     console.error(error);
     response.status(500).send({ error: "Internal Server Error" });
@@ -52,11 +63,16 @@ app.get("/sales/search", async (request, response) => {
   try {
     const limit = parseInt(request.query.limit) || 20; // Limite par défaut : 20
     const page = parseInt(request.query.page) || 1;
-    const legoId = request.query.page || "";
+    const legoId = request.query.legoId || "";
 
-    const deals = await mongo.searchSales(legoId, limit, page);
+    const { total, results } = await mongo.searchSales({ legoId, limit, page });
 
-    response.send({ result: deals });
+    response.send({
+      total, // Nombre total de résultats correspondant aux filtres
+      page, // Page actuelle
+      limit, // Limite par page
+      results, // Résultats de la page actuelle
+    });
   } catch (error) {
     console.error(error);
     response.status(500).send({ error: "Internal Server Error" });

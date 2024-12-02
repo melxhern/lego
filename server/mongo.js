@@ -164,9 +164,9 @@ module.exports.findSaleByLegoId = async (id) => {
 module.exports.searchDeals = async ({
   filterBy,
   sortBy,
-  order = -1,
-  limit = 20,
-  page = 1,
+  order,
+  limit,
+  page,
 }) => {
   try {
     await client.connect();
@@ -179,15 +179,22 @@ module.exports.searchDeals = async ({
     // 1. Filtrage
     switch (filterBy) {
       case "most-commented":
-        pipeline.push({ comments: { $gt: 15 } });
+        pipeline.push({ $match: { comments: { $gt: 15 } } });
         break;
       case "best-discount":
-        pipeline.push({ discount: { $gt: 50 } });
+        pipeline.push({ $match: { discount: { $gt: 50 } } });
         break;
       case "hot-deals":
-        pipeline.push({ temperature: { $gt: 100 } });
+        pipeline.push({ $match: { temperature: { $gt: 100 } } });
         break;
     }
+
+    // Étape 2 : Compter le total avant pagination
+    const totalPipeline = [...pipeline, { $count: "total" }];
+    const totalCountResult = await collection
+      .aggregate(totalPipeline)
+      .toArray();
+    const total = totalCountResult[0]?.total || 0;
 
     // 2. Tri par prix ou date
     if (sortBy === "price") {
@@ -207,23 +214,28 @@ module.exports.searchDeals = async ({
     // Étape 2 : Exécuter le pipeline
     const results = await collection.aggregate(pipeline).toArray();
 
-    return results;
+    return { total, results };
   } finally {
     await client.close();
   }
 };
 
-module.exports.searchSales = async ({ id = "", limit = 20, page = 1 }) => {
+module.exports.searchSales = async ({ legoId, limit, page }) => {
   try {
     await client.connect();
     const db = client.db(MONGODB_DB_NAME);
-    const collection = db.collection("deals");
+    const collection = db.collection("sales");
 
     const pipeline = [];
 
-    if (id) {
-      pipeline.push({ $match: { legoId: id } });
-    }
+    pipeline.push({ $match: { legoId: legoId } });
+
+    // Étape 2 : Compter le total avant pagination
+    const totalPipeline = [...pipeline, { $count: "total" }];
+    const totalCountResult = await collection
+      .aggregate(totalPipeline)
+      .toArray();
+    const total = totalCountResult[0]?.total || 0;
 
     pipeline.push({
       $sort: { published: -1 },
@@ -234,7 +246,7 @@ module.exports.searchSales = async ({ id = "", limit = 20, page = 1 }) => {
 
     const results = await collection.aggregate(pipeline).toArray();
 
-    return results;
+    return { total, results };
   } finally {
     await client.close();
   }
