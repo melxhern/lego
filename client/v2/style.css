@@ -319,9 +319,7 @@ body {
   display: flex;
   justify-content: flex-start;
   gap: 10px;
-  margin-bottom: 20px;
   padding: 10px 0;
-  border-bottom: 1px solid #ddd;
 }
 
 .sort-button {

@@ -183,6 +183,7 @@ const fetchVintedFromId = async (id = null) => {
 const renderDeals = (deals, isFavoriteList) => {
   const fragment = document.createDocumentFragment();
   const div = document.createElement("div");
+  console.log(deals);
   var template = "";
   if (favorites.size == 0 && sectionFavorites.style.display == "block") {
     template = `
@@ -195,7 +196,9 @@ const renderDeals = (deals, isFavoriteList) => {
     template = `
    ${
      sectionDeals.style.display == "block"
-       ? `<div class="sort-bar" style="align-items:center;" >
+       ? `
+       <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
+          <div class="sort-bar" style="align-items:center;" >
             <span>Sort By : </span>
             <button class="sort-button" onclick="SortingPrice()" >
               Price <span id="price-sort-icon"><img src="https://img.icons8.com/ios-filled/50/sort.png" width="14" height="14" /></span>
@@ -203,7 +206,9 @@ const renderDeals = (deals, isFavoriteList) => {
             <button class="sort-button" onclick="SortingDate()">
               Date <span id="date-sort-icon"><img src="https://img.icons8.com/ios-filled/50/sort.png" width="14" height="14" /></span>
             </button>
-          </div>`
+          </div>
+          <span>Number of deals : ${currentPagination.total}</span>
+       </div>`
        : ""
    }
     
