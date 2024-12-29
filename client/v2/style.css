@@ -1,12 +1,12 @@
 @font-face {
-  font-family: "LegoFont"; /* Premier fichier de police */
+  font-family: "LegoFont";
   src: url("fonts/lego.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "LegoThick"; /* Deuxième fichier de police */
+  font-family: "LegoThick";
   src: url("fonts/legothick.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
@@ -77,9 +77,9 @@ body {
 }
 
 .popup .close:hover {
-  background-color: #e0e0e0; /* Change la couleur de fond sur le hover */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre pour faire ressortir le bouton */
-  color: #ff0000; /* Optionnel : change la couleur de la croix en rouge sur hover */
+  background-color: #e0e0e0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #ff0000;
 }
 
 .detail-card {
@@ -96,21 +96,21 @@ body {
 }
 
 .detail-image {
-  flex: 0 0 40%; /* 40% de la largeur du conteneur */
-  display: flex; /* Centrage optionnel */
-  justify-content: center; /* Centrage optionnel */
-  align-items: center; /* Centrage optionnel */
+  flex: 0 0 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .detail-image img {
-  max-width: 100%; /* Adapte l'image à la largeur de son conteneur */
-  height: auto; /* Conserve les proportions */
-  border-radius: 8px; /* Optionnel : arrondir les coins de l'image */
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .detail-info {
-  flex: 1; /* Le reste de l'espace est pour les détails */
-  padding-left: 20px; /* Espace entre l'image et les détails */
+  flex: 1;
+  padding-left: 20px;
 }
 
 .detail-title {
@@ -144,17 +144,15 @@ body {
 .deals-container {
   display: flex;
   flex-direction: column;
-  /* gap: 50px; Espace entre chaque carte */
 }
 
 .deal-card {
   display: flex;
-  /* flex-direction: column; */
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Effet flottant */
   border-radius: 10px;
-  width: 100%; /* Prend toute la largeur */
+  width: 100%;
   overflow: hidden;
   height: 10rem;
   box-sizing: border-box;
@@ -172,11 +170,11 @@ body {
 }
 
 .deal-info {
-  flex: 75%; /* Prend tout l'espace restant à côté de l'image */
+  flex: 75%;
   padding-left: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Répartit le contenu verticalement */
+  justify-content: space-between;
   min-width: 0;
 }
 
@@ -257,7 +255,7 @@ body {
 
 .deal-temperature .tooltip {
   visibility: hidden;
-  width: 20rem; /* Largeur fixe */
+  width: 20rem;
   background-color: #fff;
   color: #000;
   text-align: left;
@@ -274,8 +272,8 @@ body {
   display: flex;
   flex-direction: column;
   transition: opacity 0.3s ease;
-  white-space: normal; /* Permet au texte de revenir à la ligne */
-  word-wrap: break-word; /* Assure que les mots longs se coupent si nécessaire */
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .tooltip .title {
@@ -400,7 +398,6 @@ body {
 
 .header {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   padding: 1rem;
   border-bottom: 1px solid #f056a1;
@@ -409,13 +406,13 @@ body {
 
 .header-logo {
   height: 100px;
-  margin-right: auto; /* Pousse tout le reste vers la droite */
+  margin-right: auto;
 }
 
 .header-categories {
   display: flex;
   justify-content: center;
-  flex-grow: 1; /* Permet de centrer cette section */
+  flex-grow: 1;
 }
 
 .header-button {
@@ -482,42 +479,38 @@ body {
   gap: 0.5rem;
 }
 
-/* Conteneur global pour les sections */
 #popup-content-container {
   display: flex;
-  justify-content: space-between; /* Espace entre les sections */
-  gap: 20px; /* Espacement entre les sections */
-  align-items: stretch; /* Aligne les sections avec la même hauteur */
+  justify-content: space-between;
+  gap: 20px;
+  align-items: stretch;
 }
 
-/* Section pour les indicateurs */
 #indicators {
-  flex: 0 0 45%; /* Prend 35% de l'espace */
+  flex: 0 0 45%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Aligne les éléments de manière égale sur la hauteur */
+  justify-content: space-between;
 }
 
-/* Section pour l'évaluation du deal */
 #deal-evaluation {
-  flex: 0 0 45%; /* Prend 35% de l'espace */
+  flex: 0 0 45%;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Aligne les éléments de manière égale sur la hauteur */
-  height: 100%; /* Étend la section pour qu'elle ait la même hauteur */
+  justify-content: space-between;
+  height: 100%;
 }
 
-/* Styles généraux de la carte de vente */
 .sales-card {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
-  max-width: 100%; /* Occupe 100% de l'espace disponible */
+  max-width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
-  height: 100%; /* Étend la carte à la hauteur de la section */
+  height: 100%;
 }
 
 .sales-card h3 {
@@ -534,17 +527,15 @@ body {
   color: #555;
 }
 
-/* Conteneur global de la section Deal Evaluation */
 .deal-evaluation-container {
   border: 2px solid #ddd;
   border-radius: 8px;
   padding: 1rem;
-  max-width: 100%; /* Occupe 100% de l'espace disponible */
+  max-width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 100%; /* Étend la section d'évaluation pour qu'elle occupe toute la hauteur */
+  height: 100%;
 }
 
-/* Titre de la section d'évaluation */
 .deal-evaluation-title-main {
   font-family: "LegoFont";
   font-size: 3rem;
@@ -553,20 +544,18 @@ body {
   color: #000;
 }
 
-/* Style pour la section d'évaluation du deal */
 .deal-evaluation {
   font-family: Arial, sans-serif;
   padding: 1rem;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 100%; /* Étend la section pour qu'elle ait la même hauteur */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Aligne les éléments de manière égale */
+  justify-content: space-between;
 }
 
-/* Message d'erreur si pas de ventes Vinted */
 .deal-evaluation-message {
   font-size: 1rem;
   font-weight: bold;
@@ -578,33 +567,25 @@ body {
   color: #d32f2f;
 }
 
-/* Section pour afficher le score */
 .deal-evaluation-score {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
-/* Icone du score */
 .deal-evaluation-icon {
   font-size: 2rem;
   margin-right: 10px;
 }
 
-/* Texte du score */
 .deal-evaluation-summary {
   flex-grow: 1;
   color: #000;
 }
 
-/* Texte des critères */
-.deal-evaluation-criteria-text {
-  font-size: 0.9rem;
-  line-height: 1.4;
-  color: #555;
+.deal-evaluation-criteria-list {
+  line-height: 1.5;
 }
 
-/* Message final avec couleur */
 .deal-evaluation-final-message {
   font-size: 1rem;
   font-weight: bold;
@@ -614,14 +595,26 @@ body {
   border-radius: 5px;
 }
 
-/* Message positif */
 .deal-evaluation-positive {
   background-color: #e8f5e9;
   color: #388e3c;
 }
 
-/* Message négatif */
 .deal-evaluation-negative {
-  background-color: #ffebee;
-  color: #d32f2f;
+  background-color: #fff4e5;
+  color: #ff9800;
+}
+
+.deal-evaluation-icon-good {
+  width: 24px;
+  height: 24px;
+  background-color: #4caf50;
+  border-radius: 50%;
+}
+
+.deal-evaluation-icon-bad {
+  width: 24px;
+  height: 24px;
+  background-color: #ff9800;
+  border-radius: 50%;
 }

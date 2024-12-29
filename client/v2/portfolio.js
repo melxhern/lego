@@ -1,26 +1,6 @@
 // Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
 "use strict";
 
-/**
-Description of the available api
-GET https://lego-api-blue.vercel.app/deals
-
-Search for specific deals
-
-This endpoint accepts the following optional query string parameters:
-
-- `page` - page of deals to return
-- `size` - number of deals to return
-
-GET https://lego-api-blue.vercel.app/sales
-
-Search for current Vinted sales for a given lego set id
-
-This endpoint accepts the following optional query string parameters:
-
-- `id` - lego set id to return
-*/
-
 // current deals on the page
 let currentDeals = [];
 let currentPagination = {};
@@ -70,9 +50,9 @@ const closePopup = document.getElementById("closePopup");
 const setCurrentDeals = (response) => {
   const { currentDeals: deals, currentPagination: pagination } = response;
 
-  currentDeals = deals || []; // Si pas de deals, tableau vide par défaut
+  currentDeals = deals || [];
   currentPagination = pagination || {
-    // Si pas de pagination, structure par défaut
+    // if no pagination info, set default values
     page: 1,
     size: 20,
     total: 0,
@@ -99,7 +79,6 @@ const fetchDeals = async ({
 
     const body = await response.json();
 
-    // Vérifiez si 'results' existe et contient des données
     if (!body.results || !Array.isArray(body.results)) {
       console.error("No results found in the response: ", body);
       return { currentDeals: [], currentPagination: { page, size, total: 0 } };
@@ -131,7 +110,6 @@ const fetchDealFromId = async (id = null) => {
 
     const body = await response.json();
 
-    // Vérifiez si 'value' existe et contient des données
     if (!body.value) {
       console.error("No results found in the response: ", body);
       return null;
@@ -156,7 +134,6 @@ const fetchVintedFromId = async (id = null) => {
     );
     const body = await response.json();
 
-    // Vérifiez si 'results' existe et contient des données
     if (!body.results || !Array.isArray(body.results)) {
       console.error("No results found in the response: ", body);
       return { currentDeals: [], currentPagination: { page, size, total: 0 } };
@@ -183,7 +160,6 @@ const fetchVintedFromId = async (id = null) => {
 const renderDeals = (deals, isFavoriteList) => {
   const fragment = document.createDocumentFragment();
   const div = document.createElement("div");
-  console.log(deals);
   var template = "";
   if (favorites.size == 0 && sectionFavorites.style.display == "block") {
     template = `
@@ -295,7 +271,7 @@ const renderDeals = (deals, isFavoriteList) => {
 };
 
 /**
- * Render list of deals
+ * Render vinted sales
  * @param  {Array} sales
  */
 const renderVintedSales = (sales, id) => {
@@ -303,8 +279,6 @@ const renderVintedSales = (sales, id) => {
 
   const fragment = document.createDocumentFragment();
   const div = document.createElement("div");
-  console.log(vintedSales.length);
-  console.log(vintedSales);
   var template = "";
   if (vintedSales.length > 0) {
     template = `
@@ -347,7 +321,7 @@ const renderVintedSales = (sales, id) => {
 };
 
 /**
- * Render list of deals
+ * Render details of the deal
  * @param  {Array} sales
  */
 const renderDealDetails = (deal) => {
@@ -463,7 +437,6 @@ const renderIndicators = () => {
 const render = (deals, pagination) => {
   renderDeals(deals);
   renderPagination(pagination);
-  // renderIndicators(pagination);
 };
 
 /**
@@ -510,12 +483,9 @@ selectPage.addEventListener("change", async (event) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const deals = await fetchDeals();
-  //const sales = await fetchVintedFromId();
-  //renderVintedSales(sales);
 
   setCurrentDeals(deals);
   showCategory("deals");
-  //render(currentDeals, currentPagination);
 });
 
 /**
@@ -544,10 +514,9 @@ async function SortingPrice() {
       sortPriceState = 0;
       break;
   }
-  //RemoveAllFilters();
   render(currentDeals, currentPagination);
 
-  // Appliquer les icônes après le rendu
+  // Apply icons
   const icon = document.querySelector("#price-sort-icon");
   if (icon) {
     if (sortPriceState === 1) {
@@ -588,10 +557,9 @@ async function SortingDate() {
       sortDateState = 0;
       break;
   }
-  //RemoveAllFilters();
   render(currentDeals, currentPagination);
 
-  // Appliquer les icônes après le rendu
+  // Apply icons
   const icon = document.querySelector("#date-sort-icon");
   if (icon) {
     if (sortDateState === 1) {
@@ -642,7 +610,6 @@ async function onClickMostCommented() {
 
     setCurrentDeals(deals);
     isCommentedFiltered = false;
-    //commentedButton.style.backgroundColor = "";
   } else {
     commentedButton.classList.add("active");
     const deals = await fetchDeals({ filterBy: "most-commented" });
@@ -664,8 +631,6 @@ async function onClickHotDeals() {
     });
     setCurrentDeals(deals);
     isHotDealFiltered = false;
-
-    //hotDealButton.style.backgroundColor = "";
   } else {
     hotDealButton.classList.add("active");
     const deals = await fetchDeals({ filterBy: "hot-deals" });
@@ -680,19 +645,16 @@ async function RemoveAllFilters(filterToKeep = null) {
   if (filterToKeep !== "discount") {
     isDiscountFiltered = false;
     discountButton.classList.remove("active");
-    //discountButton.style.backgroundColor = "";
   }
 
   if (filterToKeep !== "commented") {
     isCommentedFiltered = false;
     commentedButton.classList.remove("active");
-    //commentedButton.style.backgroundColor = "";
   }
 
   if (filterToKeep !== "hotDeal") {
     isHotDealFiltered = false;
     hotDealButton.classList.remove("active");
-    //hotDealButton.style.backgroundColor = "";
   }
 }
 
@@ -810,14 +772,8 @@ function DetailReleaseDate(deal) {
 }
 
 const renderFavorites = () => {
-  // Filtrer les deals dont les IDs sont dans `favorites`
   const favoriteDeals = currentDeals.filter((deal) => favorites.has(deal.id));
-
-  // Appelle `renderDeals` avec la liste des deals favoris
   renderDeals(favoriteDeals, true);
-
-  // Met à jour le contenu de `sectionFavorites`
-  //sectionFavorites.innerHTML = "Here are your favorite deals!";
 };
 
 function AddToFavorite(id) {
@@ -833,21 +789,16 @@ function RemoveFromFavorite(id) {
 }
 
 async function openPopup(_id, legoId) {
-  // let selectedLegoId = selectLegoSetIds.value;
-
   sectionVinted.innerHTML = "";
 
-  // Vérifiez si une option valide est sélectionnée
   try {
-    // openPopup();
-    // Appeler fetchVintedFromId avec la valeur sélectionnée
     const sales = await fetchVintedFromId(legoId);
     const deal = await fetchDealFromId(_id);
     document.getElementById(
       "header-title"
     ).innerHTML = `<h2 style="font-family: 'LegoFont'; margin:0;">LEGO ${legoId}</h2>`;
     renderDealDetails(deal);
-    renderVintedSales(sales, legoId); // Appelle la fonction pour render les ventes
+    renderVintedSales(sales, legoId);
     renderIndicators(currentPagination);
     renderDealEvaluation(deal, sales);
   } catch (error) {
@@ -906,9 +857,8 @@ const renderDealEvaluation = (deal, sales) => {
       <div class="deal-evaluation-container">
         <h2 class="deal-evaluation-title-main">DEAL EVALUATION</h2>
         <div class="deal-evaluation">
-          <!-- Error message if no Vinted sales -->
           <div class="deal-evaluation-message">
-            <p>Unable to evaluate this deal because there are no Vinted sales available</p>
+            <p>Unable to evaluate this deal because there are no Vinted sales available.</p>
           </div>
         </div>
       </div>
@@ -916,112 +866,121 @@ const renderDealEvaluation = (deal, sales) => {
     div.innerHTML = template;
     fragment.appendChild(div);
     sectionDealEvaluation.appendChild(fragment);
-    return;
+    return 0;
   }
 
-  // Calculating the difference in days between the current date and the deal publication date
   const now = new Date();
   const dealDate = new Date(deal.published * 1000);
   const dealAgeInDays = Math.floor((now - dealDate) / (1000 * 3600 * 24));
+  const maxTemperature = 500;
+  const maxDiscount = 50;
+  const maxComments = 10;
+  const maxRecentSales = 5;
+  const maxScore = 20;
 
-  // Variables for deal evaluation
   let score = 0;
   let explanation = [];
 
-  // Price lower than retail
-  if (deal.price < deal.retail) {
-    score += 2;
-    explanation.push("Price is lower than retail");
-  } else {
-    score += 1;
-    explanation.push("Price is close to retail");
+  // Temperature
+  const temperatureScore = Math.min(deal.temperature / maxTemperature, 1) * 3;
+  score += temperatureScore;
+  explanation.push(`Temperature is ${deal.temperature}°`);
+
+  // Discount
+  const discountScore = Math.min(deal.discount / maxDiscount, 1) * 3;
+  if (deal.discount !== null) {
+    explanation.push(`Discount of ${deal.discount}%`);
+    score += discountScore;
   }
 
-  // Significant discount (>30%)
-  if (deal.discount > 30) {
-    score += 3;
-    explanation.push(`Significant discount of (${deal.discount}%)`);
-  } else if (deal.discount > 0) {
-    score += 2;
-    explanation.push(`Discount of (${deal.discount}%)`);
-  }
-
-  // Temperature (popular deal)
-  if (deal.temperature > 80) {
-    score += 2;
-    explanation.push(`Very popular deal (${deal.temperature}°)`);
-  } else if (deal.temperature > 50) {
-    score += 1;
-    explanation.push(`Deal not that popular (${deal.temperature}°)`);
-  }
-
-  // Comparison with Vinted sales
-  if (deal.price < avg) {
-    score += 2;
-    explanation.push("Price is lower than the average sales price");
-  } else if (deal.price < p50) {
-    score += 1;
-    explanation.push("Price is close to the median sales price");
-  }
+  // Comments
+  const commentScore = Math.min(deal.comments / maxComments, 1) * 2;
+  score += commentScore;
+  explanation.push(`${deal.comments} comment(s) on Vinted`);
 
   // Recent sales on Vinted
-  if (currentPagination.page === 1 && nbsales > 0) {
+  const recentSalesOnVinted = sales.currentDeals.filter((sale) => {
+    const saleDate = new Date(sale.published * 1000);
+    const saleAgeInDays = Math.floor((now - saleDate) / (1000 * 3600 * 24));
+    return saleAgeInDays <= 7;
+  });
+  const recentSalesScore =
+    Math.min(recentSalesOnVinted.length / maxRecentSales, 1) * 4;
+  score += recentSalesScore;
+  explanation.push(
+    `${recentSalesOnVinted.length} recent sales on Vinted (published in the last 7 days)`
+  );
+
+  // Older sales
+  const oldSalesOnVinted =
+    sales.currentDeals.length - recentSalesOnVinted.length;
+  const oldSalesScore = Math.min(oldSalesOnVinted / maxRecentSales, 1) * 1;
+  score += oldSalesScore;
+  explanation.push(`${oldSalesOnVinted} older sales on Vinted`);
+
+  // Percentiles
+  if (deal.price < p5) {
+    score += 3;
+    explanation.push(
+      `Price is below the 5th percentile (${p5}€), so it's a really good price`
+    );
+  } else if (deal.price < p25) {
     score += 2;
-    explanation.push("There have been recent sales on Vinted");
+    explanation.push(
+      `Price is below the 25th percentile (${p25}€), so it's a good price`
+    );
+  } else if (deal.price < p50) {
+    score += 1;
+    explanation.push(
+      `Price is close to the median price (${p50}€), so it's decent`
+    );
+  } else if (deal.price > p95) {
+    explanation.push(
+      `Price is above the 95th percentile (${p95}€), so it's not really interesting`
+    );
   }
 
-  // Recent deal
-  if (dealAgeInDays <= 30) {
-    score += 2;
+  // Age of the deal
+  if (dealAgeInDays <= 7) {
+    score += 1;
     explanation.push("This deal is recent");
   }
 
-  // Final result
-  let dealWorthIt = false;
-  let finalMessage = "";
-
-  if (score >= 10) {
-    dealWorthIt = true;
-    finalMessage = "This is a great deal!";
-  } else if (score >= 6) {
-    dealWorthIt = true;
-    finalMessage = "This deal is okay";
-  } else {
-    dealWorthIt = false;
-    finalMessage = "This deal is not very appealing";
-  }
+  const evaluationPercentage = Math.round((score / maxScore) * 100);
+  const isGoodDeal = evaluationPercentage >= 50;
 
   const template = ` 
     <div class="deal-evaluation-container">
       <h2 class="deal-evaluation-title-main">DEAL EVALUATION</h2>
       <div class="deal-evaluation">
-        <!-- Score section -->
         <div class="deal-evaluation-score">
           <div class="deal-evaluation-icon">
-            <i class="fas fa-check-circle" style="color: ${
-              dealWorthIt ? "#4CAF50" : "#F44336"
-            };"></i>
+            <div class="${
+              isGoodDeal
+                ? "deal-evaluation-icon-good"
+                : "deal-evaluation-icon-bad"
+            }">
+            </div>
+
           </div>
           <div class="deal-evaluation-summary">
-            <h4 class="deal-evaluation-summary-text">${finalMessage}</h4>
+            <h4 class="deal-evaluation-summary-text">${evaluationPercentage}%</h4>
           </div>
         </div>
 
-        <!-- Criteria section as a list -->
         <div class="deal-evaluation-criteria">
           <ul class="deal-evaluation-criteria-list">
             ${explanation.map((item) => `<li>${item}</li>`).join("")}
           </ul>
         </div>
 
-        <!-- Final section with color -->
         <div class="deal-evaluation-final-message ${
-          dealWorthIt ? "deal-evaluation-positive" : "deal-evaluation-negative"
+          isGoodDeal ? "deal-evaluation-positive" : "deal-evaluation-negative"
         }">
           <p>${
-            dealWorthIt
-              ? "Go for it, it's a great deal!"
-              : "This deal is not very appealing."
+            isGoodDeal
+              ? "This is a great deal ! Go for it"
+              : "This deal is not really worth it"
           }</p>
         </div>
       </div>
@@ -1031,4 +990,6 @@ const renderDealEvaluation = (deal, sales) => {
   div.innerHTML = template;
   fragment.appendChild(div);
   sectionDealEvaluation.appendChild(fragment);
+
+  return evaluationPercentage;
 };

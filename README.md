@@ -1,9 +1,12 @@
-# 🧱 Lego
+# 🧱 Pink Brick
+
+Mélanie HERNANDEZ
 
 > First bricks for profitability
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of Contents**
 
 - [📱 Context](#-context)
@@ -24,7 +27,6 @@ _In progress_
 
 _In progress_
 
-
 ## 🎯 Objective
 
 **Build an end-to-end web application to determine if a lego set deal is really a good deal.**
@@ -41,20 +43,17 @@ _In progress_
 
 ## 👩🏽‍💻 Step by step with Workshops
 
-_In progress_
-
 With [javascript-empire](https://github.com/92bondstreet/javascript-empire#%EF%B8%8F-the-3-themes) themes, we'll follow next workshops to solve our problem:
 
-| Step | Workshops | Planned Date
-| --- | --- | ---
-| 1 | [Manipulate data with JavaScript in the browser](./workshops/1-manipulate-javascript.md) | Sept 2024
-| 2 | [Interact data with JavaScript, HTML and CSS in the browser again](./workshops/2-interact-js-css.md) | Sept 2024
-| 3 | [Scrape data with Node.js](./workshops/3-scrape-node.md) | Oct and Nov 2024
-| 4 | [Save data in a Database with MongoDB](./workshops/4-store-mongodb.md) | Nov 2024
-| 5 | [Build an api with Express to request data](./workshops/5-api-express.md) | Nov 2024
-| 6 | Test your code with Jest | Dec 2024
-| 7 | [Deploy in production with Vercel](./workshops/7-deploy.md) | Dec 2024
-
+| Step | Workshops                                                                                            |  Planned Date    |
+| ---- | ---------------------------------------------------------------------------------------------------- | ---------------- |
+| 1    | [Manipulate data with JavaScript in the browser](./workshops/1-manipulate-javascript.md)             | Sept 2024        |
+| 2    | [Interact data with JavaScript, HTML and CSS in the browser again](./workshops/2-interact-js-css.md) | Sept 2024        |
+| 3    | [Scrape data with Node.js](./workshops/3-scrape-node.md)                                             | Oct and Nov 2024 |
+| 4    | [Save data in a Database with MongoDB](./workshops/4-store-mongodb.md)                               | Nov 2024         |
+| 5    | [Build an api with Express to request data](./workshops/5-api-express.md)                            | Nov 2024         |
+| 6    | Test your code with Jest                                                                             | Dec 2024         |
+| 7    | [Deploy in production with Vercel](./workshops/7-deploy.md)                                          | Dec 2024         |
 
 ## 🌱 Source and Inspiration
 
@@ -63,3 +62,6 @@ _In progress_
 ## 📝 Licence
 
 [Uncopyrighted](http://zenhabits.net/uncopyright/)
+Animation artworks by [Irina Mir](https://www.behance.net/irmirx)
+
+This project was made for educational purposes only.
