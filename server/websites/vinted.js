@@ -14,7 +14,8 @@ const parse = async (data, legoId) => {
     price: item.total_item_price.amount,
     link: item.url,
     favorites: item.favourite_count,
-    image: item.photo ? item.photo.url : null,
+    image: item.photo.url,
+    published: item.photo.high_resolution.timestamp,
   }));
 
   return results;

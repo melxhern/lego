@@ -3,17 +3,24 @@ const express = require("express");
 const helmet = require("helmet");
 const mongo = require("./mongo");
 
-const PORT = 8092;
+const PORT = process.env.PORT || 8092;
 
 const app = express();
 
 module.exports = app;
 
+const corsOptions = {
+  origin: "*", // Remplacez par le domaine de votre client
+  methods: ["GET", "POST", "PUT", "DELETE"], // Méthodes autorisées
+  allowedHeaders: ["Content-Type", "Authorization"], // En-têtes autorisés
+};
+
+app.use(cors(corsOptions));
+
 app.use(require("body-parser").json());
-app.use(cors());
 app.use(helmet());
 
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 
 app.get("/", (request, response) => {
   response.send({ ack: true });
@@ -27,6 +34,8 @@ app.get("/deals/search", async (request, response) => {
     const order = parseInt(request.query.order) || -1;
     const filterBy = request.query.filterBy || null;
 
+    console.log("values : ", limit, page, sortBy, order, filterBy);
+
     const { total, results } = await mongo.searchDeals({
       filterBy,
       sortBy,
@@ -34,6 +43,8 @@ app.get("/deals/search", async (request, response) => {
       limit,
       page,
     });
+
+    console.log("results", results);
 
     response.send({
       total, // Nombre total de résultats correspondant aux filtres
@@ -79,6 +90,4 @@ app.get("/sales/search", async (request, response) => {
   }
 });
 
-app.listen(PORT);
-
-console.log(`📡 Running on port ${PORT}`);
+app.listen(PORT, () => console.log(`📡 Running on port ${PORT}`));

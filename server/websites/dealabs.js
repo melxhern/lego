@@ -47,6 +47,9 @@ const parse = async (data) => {
 
       const discount = Math.ceil(((retail - price) / retail) * 100);
 
+      if (legoId === null) {
+        return null;
+      }
       return {
         id,
         title,

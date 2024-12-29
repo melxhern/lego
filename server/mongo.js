@@ -3,159 +3,155 @@ require("dotenv").config();
 const uri = `mongodb+srv://melaniehernandez:${process.env.SECRET_KEY}@clusterlego.lbsz0.mongodb.net/?retryWrites=true&w=majority&appName=ClusterLego`;
 const MONGODB_DB_NAME = "lego";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+let client; // Déclare client globalement
+let db; // Déclare db globalement
+
+const initMongo = async () => {
+  try {
+    if (!client) {
+      client = new MongoClient(uri, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        },
+      });
+      console.log("Connexion à MongoDB en cours...");
+      await client.connect();
+      console.log("Connexion réussie !");
+      db = client.db(MONGODB_DB_NAME);
+    }
+    return db;
+  } catch (error) {
+    console.error("Erreur lors de la connexion à MongoDB :", error);
+    throw new Error("Impossible de se connecter à MongoDB");
+  }
+};
 
 module.exports.run = async (deals, name) => {
   try {
     // Connect the client to the server
-    await client.connect();
-
-    const db = client.db(MONGODB_DB_NAME);
+    const db = await initMongo();
 
     const collection = db.collection(name);
 
     // delete les precedentes valeurs de la collection avant d'insérer les nouvelles
     await collection.deleteMany({});
-
-    const result = await collection.insertMany(deals);
-
-    console.log(
-      "InsertMany result:",
-      result.insertedCount,
-      "documents insérés."
-    );
-
-    console.log("result", result);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    await collection.insertMany(deals);
+  } catch (error) {
+    console.error(error);
   }
 };
 
-module.exports.mostCommented = async () => {
-  try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+// module.exports.mostCommented = async () => {
+//   try {
+//     await client.connect();
+//     const db = client.db(MONGODB_DB_NAME);
 
-    const collection = db.collection("deals");
+//     const collection = db.collection("deals");
 
-    const comments = await collection.find({ comments: { $gt: 15 } }).toArray();
+//     const comments = await collection.find({ comments: { $gt: 15 } }).toArray();
 
-    return comments;
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-};
+//     return comments;
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// };
 
-module.exports.bestDiscounts = async () => {
-  try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+// module.exports.bestDiscounts = async () => {
+//   try {
+//     await client.connect();
+//     const db = client.db(MONGODB_DB_NAME);
 
-    const collection = db.collection("deals");
+//     const collection = db.collection("deals");
 
-    const discount = await collection.find({ discount: { $gt: 50 } }).toArray();
+//     const discount = await collection.find({ discount: { $gt: 50 } }).toArray();
 
-    return discount;
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-};
+//     return discount;
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// };
 
-module.exports.hotDeals = async () => {
-  try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+// module.exports.hotDeals = async () => {
+//   try {
+//     await client.connect();
+//     const db = client.db(MONGODB_DB_NAME);
 
-    const collection = db.collection("deals");
+//     const collection = db.collection("deals");
 
-    const legos = await collection
-      .find({ temperature: { $gt: 100 } })
-      .toArray();
+//     const legos = await collection
+//       .find({ temperature: { $gt: 100 } })
+//       .toArray();
 
-    return legos;
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-};
+//     return legos;
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// };
 
-module.exports.sortByPrice = async () => {
-  try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+// module.exports.sortByPrice = async () => {
+//   try {
+//     await client.connect();
+//     const db = client.db(MONGODB_DB_NAME);
 
-    const collection = db.collection("deals");
+//     const collection = db.collection("deals");
 
-    var sortAsc = { price: -1 };
+//     var sortAsc = { price: -1 };
 
-    const sorted = await collection.find().sort(sortAsc).toArray();
+//     const sorted = await collection.find().sort(sortAsc).toArray();
 
-    return sorted;
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-};
+//     return sorted;
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// };
 
-module.exports.sortByDate = async () => {
-  try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+// module.exports.sortByDate = async () => {
+//   try {
+//     await client.connect();
+//     const db = client.db(MONGODB_DB_NAME);
 
-    const collection = db.collection("deals");
+//     const collection = db.collection("deals");
 
-    var sortAsc = { published: -1 };
+//     var sortAsc = { published: -1 };
 
-    const sorted = await collection.find().sort(sortAsc).toArray();
+//     const sorted = await collection.find().sort(sortAsc).toArray();
 
-    console.log(sorted);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-};
+//     console.log(sorted);
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// };
 
 module.exports.findDealById = async (id) => {
   try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
-
+    const db = await initMongo();
     const collection = db.collection("deals");
 
     var o_id = new ObjectId(id);
 
-    const legos = await collection.find({ _id: o_id }).toArray();
-
-    return legos;
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    return collection.findOne({ _id: o_id });
+  } catch (error) {
+    console.log(error);
   }
 };
 
 module.exports.findSaleByLegoId = async (id) => {
   try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+    const db = await initMongo();
 
     const collection = db.collection("sales");
 
-    const legos = await collection.find({ legoId: id }).toArray();
-
-    return legos;
-  } finally {
+    return collection.find({ legoId: id }).toArray();
+  } catch (error) {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    console.log(error);
   }
 };
 
@@ -169,9 +165,10 @@ module.exports.searchDeals = async ({
   page,
 }) => {
   try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+    const db = await initMongo();
     const collection = db.collection("deals");
+
+    console.log("ici mongo");
 
     // Étape 1 : Construire le pipeline
     const pipeline = [];
@@ -194,6 +191,7 @@ module.exports.searchDeals = async ({
     const totalCountResult = await collection
       .aggregate(totalPipeline)
       .toArray();
+
     const total = totalCountResult[0]?.total || 0;
 
     // 2. Tri par prix ou date
@@ -213,17 +211,17 @@ module.exports.searchDeals = async ({
 
     // Étape 2 : Exécuter le pipeline
     const results = await collection.aggregate(pipeline).toArray();
+    console.log("hhe :", results);
 
     return { total, results };
-  } finally {
-    await client.close();
+  } catch (error) {
+    console.log(error);
   }
 };
 
 module.exports.searchSales = async ({ legoId, limit, page }) => {
   try {
-    await client.connect();
-    const db = client.db(MONGODB_DB_NAME);
+    const db = await initMongo();
     const collection = db.collection("sales");
 
     const pipeline = [];
@@ -247,7 +245,7 @@ module.exports.searchSales = async ({ legoId, limit, page }) => {
     const results = await collection.aggregate(pipeline).toArray();
 
     return { total, results };
-  } finally {
-    await client.close();
+  } catch (error) {
+    console.log(error);
   }
 };

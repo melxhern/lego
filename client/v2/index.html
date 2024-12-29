@@ -2,43 +2,42 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>🧱 Lego | Predictability of a lego set deal</title>
+    <title>Pink Brick</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="assets/pink-brick_logo.png">
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
       rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 
   </head>
-  <body style="background-color: #E4E5EC;">
-    <div id="image"
-      style="background-color: #da291c; width: 100%; text-align: center;">
-      <img src="logo.png" alt="logo" width="auto" height="100rem">
-    </div>
-
-    <div id="whole-page" style="width: 85%; margin: 0 auto;">
-
-      <div class="header">
+  <body style="background-color: #FFF2F7 ;">
+    <div class="header">
+      <img src="assets/pink-brick_logo.png" alt="logo" class="header-logo">
+      <div class="header-categories">
         <button id="dealsButton" class="header-button active"
           onclick="showCategory('deals')">Deals</button>
         <button id="favoritesButton" class="header-button"
           onclick="showCategory('favorites')">Favorites</button>
       </div>
+    </div>
 
-      <div>
-        <span>Number of deals :</span>
-        <span id="nbDeals">0</span>
-      </div>
+    <div id="whole-page"
+      style="width: 85%; margin: 0 auto;">
 
       <section id="options" style="margin-bottom: 1rem;">
+        <span>Filter By : </span>
         <div id="filters">
           <button id="discountButton" onclick="onClickBestDiscount() "
-            class="filter-button">By best
+            class="filter-button">Best
             discount</span>
           <button id="commentedButton" onclick="onClickMostCommented()"
-            class="filter-button">By most
+            class="filter-button">Most
             commented</span>
           <button id="hotDealButton" onclick="onClickHotDeals()"
-            class="filter-button">By hot
+            class="filter-button">Hot
             deals</span>
         </div>
 
@@ -47,7 +46,7 @@
       <section id="deals"></section>
       <section id="favorites"></section>
 
-      <div class="pagination-container">
+      <div id="pagination-container" class="pagination-container">
         <div class="pagination">
           <label for="page-select" class="page-label">Page:</label>
           <select name="page" id="page-select" class="page-select"></select>
@@ -55,52 +54,43 @@
         <div class="show-options">
           <label for="show-select" class="show-label">Show:</label>
           <select name="show" id="show-select" class="show-select">
-            <option value="6">6</option>
-            <option value="12">12</option>
-            <option value="24">24</option>
+            <option value="20">20</option>
+            <option value="40">40</option>
+            <option value="60">60</option>
           </select>
         </div>
       </div>
 
       <div class="popup-overlay" id="popupOverlay">
         <div class="popup" id="popup">
-          <span class="close" id="closePopup">&times;</span>
+          <div class="popup-header">
+            <h2 id="header-title"></h2>
+            <span class="close" id="closePopup">&times;</span>
+          </div>
+
           <div class="popup-content">
-            <section id="deal-info"></section>
+            <section id="deal-details"></section>
 
-            <section id="indicators">
-              <h2
-                style="font-family: 'LegoFont'; font-size: 3rem;">INDICATORS</h2>
+            <div id="popup-content-container">
+              <section id="indicators">
+                <div class="sales-card">
+                  <h2
+                    style="font-family: 'LegoFont'; font-size: 3rem; margin-top: 0;">INDICATORS</h2>
+                  <p><strong>Number of sales :</strong> <span
+                      id="nbSales"></span></p>
+                  <p><strong>Average sales price value :</strong> <span
+                      id="avg"></span> €</p>
+                  <p><strong>P5 :</strong> <span id="p5"></span> €</p>
+                  <p><strong>P25 :</strong> <span id="p25"></span> €</p>
+                  <p><strong>P50 :</strong> <span id="p50"></span> €</p>
+                  <p><strong>P95 :</strong> <span id="p95"></span> €</p>
+                  <p><strong>Lifetime value :</strong> <span
+                      id="lifetime"></span></p>
+                </div>
+              </section>
+              <section id="deal-evaluation"></section>
+            </div>
 
-              <div>
-                <span>Number of sales :</span>
-                <span id="nbSales">0</span>
-              </div>
-              <div>
-                <span>Average sales price value :</span>
-                <span id="avg">0</span>
-              </div>
-              <div>
-                <span>p5 sales price value :</span>
-                <span id="p5">0</span>
-              </div>
-              <div>
-                <span>p25 sales price value :</span>
-                <span id="p25">0</span>
-              </div>
-              <div>
-                <span>p50 sales price value :</span>
-                <span id="p50">0</span>
-              </div>
-              <div>
-                <span>p95 sales price value :</span>
-                <span id="p95">0</span>
-              </div>
-              <div>
-                <span>Lifetime value :</span>
-                <span id="lifetime">10 days</span>
-              </div>
-            </section>
             <section id="vinted"></section>
           </div>
         </div>
